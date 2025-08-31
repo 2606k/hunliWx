@@ -10,7 +10,7 @@ Page({
     },
     submitting: false,
     page: 1,
-    pageSize: 20,
+    pageSize: 20000,
     hasMore: true,
     loading: false,
     showAddModal: false // 新增弹窗显示状态
@@ -32,6 +32,19 @@ Page({
     }
     this.loadMessages()
     return true
+  },
+
+  // 获取用户信息
+  getUserInfo() {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo && userInfo.nickName && userInfo.avatarUrl) {
+      return userInfo
+    }
+    // 如果本地存储没有，尝试从全局获取
+    if (app.globalData.userInfo && app.globalData.userInfo.nickName && app.globalData.userInfo.avatarUrl) {
+      return app.globalData.userInfo
+    }
+    return null
   },
 
   onPullDownRefresh() {
@@ -79,11 +92,23 @@ Page({
       return
     }
     
+    // 动态获取用户信息
+    const userInfo = this.getUserInfo()
+    if (!userInfo) {
+      wx.showToast({
+        title: '用户信息获取失败',
+        icon: 'none'
+      })
+      return
+    }
+    
     this.setData({
       showAddModal: true,
       formData: {
         name: '',
-        content: ''
+        content: '',
+        nickName: userInfo.nickName,
+        avatarUrl: userInfo.avatarUrl
       }
     })
   },
@@ -107,11 +132,20 @@ Page({
       return
     }
     
-    const { name, content } = this.data.formData
+    const { name, content, nickName, avatarUrl } = this.data.formData
     
+    // 验证必要字段
     if (!content.trim()) {
       wx.showToast({
         title: '请输入祝福内容',
+        icon: 'none'
+      })
+      return
+    }
+    
+    if (!nickName || !avatarUrl) {
+      wx.showToast({
+        title: '用户信息不完整，请重新授权',
         icon: 'none'
       })
       return
@@ -125,10 +159,12 @@ Page({
       method: 'POST',
       data: {
         name: name.trim() || null,
-        content: content.trim()
+        content: content.trim(),
+        nickName: nickName,
+        avatarUrl: avatarUrl
       },
       success: (res) => {
-        if (res.data.code ===200) {
+        if (res.data.code === 200) {
           wx.showToast({
             title: '祝福发送成功',
             icon: 'success'
@@ -183,10 +219,18 @@ Page({
       },
       success: (res) => {
         if (res.data.code === 200) {
-          const messages = res.data.data.map(message => ({
-            ...message,
-            submitTimeStr: this.formatDate(new Date(message.submitTime))
-          }))
+          const messages = res.data.data.map(message => {
+            // 预处理数据，添加显示字段
+            const displayName = message.name || message.nickName || '匿名'
+            const avatarText = displayName !== '匿名' ? displayName.charAt(0) : '匿'
+            
+            return {
+              ...message,
+              submitTimeStr: this.formatDate(new Date(message.submitTime)),
+              displayName: displayName,
+              avatarText: avatarText
+            }
+          })
           
           // 确保留言数量足够支持三排布局，但不重复
           let processedMessages = messages

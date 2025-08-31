@@ -21,13 +21,14 @@
     <!-- 第一排留言 -->
     <view class="message-row">
       <view class="message-item" wx:for="{{messages}}" wx:key="id" wx:if="{{index % 3 === 0}}">
-        <!-- <view class="message-avatar">
-          <text class="avatar-text">{{item.name ? item.name.charAt(0) : '匿'}}</text>
-        </view> -->
+        <view class="message-avatar">
+          <image wx:if="{{item.avatarUrl}}" class="avatar-image" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+          <text wx:else class="avatar-text">{{item.avatarText}}</text>
+        </view>
         
         <view class="message-content">
           <view class="message-header">
-            <text class="message-name">{{item.name || '匿名'}}</text>
+            <text class="message-name">{{item.displayName}}</text>
             <text class="message-time">{{item.submitTimeStr}}</text>
           </view>
           <view class="message-text">{{item.content}}</view>
@@ -38,13 +39,14 @@
     <!-- 第二排留言 -->
     <view class="message-row">
       <view class="message-item" wx:for="{{messages}}" wx:key="id" wx:if="{{index % 3 === 1}}">
-        <!-- <view class="message-avatar">
-          <text class="avatar-text">{{item.name ? item.name.charAt(0) : '匿'}}</text>
-        </view> -->
+        <view class="message-avatar">
+          <image wx:if="{{item.avatarUrl}}" class="avatar-image" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+          <text wx:else class="avatar-text">{{item.avatarText}}</text>
+        </view>
         
         <view class="message-content">
           <view class="message-header">
-            <text class="message-name">{{item.name || '匿名'}}</text>
+            <text class="message-name">{{item.displayName}}</text>
             <text class="message-time">{{item.submitTimeStr}}</text>
           </view>
           <view class="message-text">{{item.content}}</view>
@@ -55,13 +57,14 @@
     <!-- 第三排留言 -->
     <view class="message-row">
       <view class="message-item" wx:for="{{messages}}" wx:key="id" wx:if="{{index % 3 === 2}}">
-        <!-- <view class="message-avatar">
-          <text class="avatar-text">{{item.name ? item.name.charAt(0) : '匿'}}</text>
-        </view> -->
+        <view class="message-avatar">
+          <image wx:if="{{item.avatarUrl}}" class="avatar-image" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+          <text wx:else class="avatar-text">{{item.avatarText}}</text>
+        </view>
         
         <view class="message-content">
           <view class="message-header">
-            <text class="message-name">{{item.name || '匿名'}}</text>
+            <text class="message-name">{{item.displayName}}</text>
             <text class="message-time">{{item.submitTimeStr}}</text>
           </view>
           <view class="message-text">{{item.content}}</view>
