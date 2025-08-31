@@ -12,7 +12,8 @@ Page({
     page: 1,
     pageSize: 20,
     hasMore: true,
-    loading: false
+    loading: false,
+    showAddModal: false // 新增弹窗显示状态
   },
 
   onLoad() {
@@ -71,6 +72,34 @@ Page({
     })
   },
 
+  // 显示新增留言弹窗
+  showAddMessageModal() {
+    if (!app.checkUserAuth()) {
+      app.showAuthRequiredDialog()
+      return
+    }
+    
+    this.setData({
+      showAddModal: true,
+      formData: {
+        name: '',
+        content: ''
+      }
+    })
+  },
+
+  // 隐藏新增留言弹窗
+  hideAddMessageModal() {
+    this.setData({
+      showAddModal: false
+    })
+  },
+
+  // 阻止弹窗关闭
+  preventClose() {
+    // 阻止事件冒泡，防止点击弹窗内容时关闭弹窗
+  },
+
   // 提交留言
   submitMessage() {
     if (!app.checkUserAuth()) {
@@ -105,12 +134,13 @@ Page({
             icon: 'success'
           })
           
-          // 清空表单
+          // 清空表单并关闭弹窗
           this.setData({
             formData: {
               name: '',
               content: ''
-            }
+            },
+            showAddModal: false
           })
           
           // 重新加载留言列表
@@ -158,8 +188,19 @@ Page({
             submitTimeStr: this.formatDate(new Date(message.submitTime))
           }))
           
+          // 确保留言数量足够支持三排布局，但不重复
+          let processedMessages = messages
+          if (messages.length < 6) {
+            // 如果留言太少，复制一些来填充三排，但保持不重复
+            const repeatCount = Math.ceil(6 / messages.length)
+            processedMessages = []
+            for (let i = 0; i < repeatCount; i++) {
+              processedMessages.push(...messages)
+            }
+          }
+          
           this.setData({
-            messages: this.data.page === 1 ? messages : [...this.data.messages, ...messages],
+            messages: this.data.page === 1 ? processedMessages : [...this.data.messages, ...processedMessages],
             hasMore: messages.length === this.data.pageSize,
             loading: false
           })

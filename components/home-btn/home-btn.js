@@ -19,9 +19,16 @@ Component({
    */
   methods: {
     // 返回首页
-    goToHome: function() {
-      wx.switchTab({
-        url: '/pages/index/index'
+    goToHome() {
+      console.log('点击返回首页按钮')
+      wx.reLaunch({
+        url: '/pages/index/index',
+        success: () => {
+          console.log('成功跳转到首页')
+        },
+        fail: (error) => {
+          console.error('跳转失败:', error)
+        }
       })
     }
   }

@@ -1,10 +1,14 @@
 /* pages/photo/photo.wxss */
-.container {
-  padding: 30rpx;
-  background: url('http://124.222.172.221:9000/marry/bg3.jpg') no-repeat;
+page {
+  background: url('http://124.222.172.221:9000/marry/bg3.jpg') no-repeat fixed;
   background-size: cover;
   background-position: center center;
+}
+
+.container {
+  padding: 30rpx;
   min-height: 100vh;
+  /* 移除背景相关属性，背景现在由page控制 */
 }
 
 /* 页面标题 */
@@ -86,16 +90,14 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20rpx;
+  /* gap: 20rpx; */
 }
 
 .photo-item {
-  background: white;
-  border-radius: 15rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   position: relative;
+  /* margin-bottom: 20rpx; */
 }
 
 .photo-item:active {
@@ -108,9 +110,7 @@
   display: block;
 }
 
-.photo-info {
-  padding: 20rpx;
-}
+
 
 .photo-desc {
   font-size: 28rpx;
@@ -121,7 +121,8 @@
 
 .photo-time {
   font-size: 24rpx;
-  color: #999;
+  /* color: rgb(255, 255, 255); */
+  color: transparent;
 }
 
 /* 删除按钮样式 */

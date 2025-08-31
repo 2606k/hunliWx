@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" patternUnits="userSpaceOnUse" width="20" height="20"><path d="M10,6 Q10,2 6,2 Q2,2 2,6 Q2,10 10,18 Q18,10 18,6 Q18,2 14,2 Q10,2 10,6" fill="rgba(255,255,255,0.15)"/></pattern></defs><rect width="100" height="100" fill="url(%23hearts)"/></svg>');
+  /* background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" patternUnits="userSpaceOnUse" width="20" height="20"><path d="M10,6 Q10,2 6,2 Q2,2 2,6 Q2,10 10,18 Q18,10 18,6 Q18,2 14,2 Q10,2 10,6" fill="rgba(255,255,255,0.15)"/></pattern></defs><rect width="100" height="100" fill="url(%23hearts)"/></svg>'); */
   pointer-events: none;
   animation: float 20s ease-in-out infinite;
 }
@@ -670,3 +670,58 @@
   font-weight: 500;
   letter-spacing: 1rpx;
 } 
+
+/* 蓝色按钮样式 */
+.blue-button {
+  position: absolute;
+  left: 210rpx;
+  top: 1080rpx; /* 调整到可见区域 */
+  width: 220rpx; /* 711 - 364 = 347 */
+  height: 50rpx; /* 1754 - 1692 = 62 */
+  /* background-color: #357ABD; */
+  border-radius: 8rpx;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+  /* 添加调试样式 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.blue-button2 {
+  position: absolute;
+  left: 335rpx;
+  top: 1180rpx; /* 调整到可见区域 */
+  width: 220rpx; /* 711 - 364 = 347 */
+  height: 50rpx; /* 1754 - 1692 = 62 */
+  /* background-color: #357ABD; */
+  border-radius: 8rpx;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+  /* 添加调试样式 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.blue-button3 {
+  position: absolute;
+  left: 459rpx;
+  top: 1280rpx; /* 调整到可见区域 */
+  width: 220rpx; /* 711 - 364 = 347 */
+  height: 50rpx; /* 1754 - 1692 = 62 */
+  /* background-color: #357ABD; */
+  border-radius: 8rpx;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+  /* 添加调试样式 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}

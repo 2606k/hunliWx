@@ -4,13 +4,16 @@
   background: url('http://124.222.172.221:9000/marry/bg4.jpg') no-repeat;
   background-size: cover;
   background-position: center center;
-  min-height: 100vh;
+  height: 100vh;
+  background-attachment: fixed;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 /* 页面标题 */
 .page-header {
   text-align: center;
-  margin-bottom: 30rpx;
+  margin: 20rpx 0 30rpx 0;
 }
 
 .title {
@@ -25,29 +28,239 @@
   color: #666;
 }
 
-/* 留言表单 */
-.message-form {
+/* 留言列表容器 */
+.message-list-container {
+  margin: 0 0 550rpx 0;
+  padding: 0 20rpx;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 40rpx;
-}
-
-.form-card {
-  background: white;
-  border-radius: 20rpx;
-  padding: 30rpx;
-  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.1);
-}
-
-.form-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 30rpx;
   text-align: center;
 }
 
-.form-item {
+.list-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.list-count {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 三排留言布局 */
+.message-row {
+  display: flex;
+  justify-content: center;
   margin-bottom: 30rpx;
-  position: relative;
+  overflow: hidden;
+}
+
+.message-row:nth-child(2) {
+  animation: scrollLeft 20s linear infinite;
+}
+
+.message-row:nth-child(3) {
+  animation: scrollRight 25s linear infinite;
+}
+
+.message-row:nth-child(4) {
+  animation: scrollLeft 30s linear infinite;
+}
+
+/* 自动滚动动画 */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.message-item {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 15rpx;
+  padding: 25rpx;
+  margin: 0 15rpx;
+  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
+  min-width: 280rpx;
+  max-width: 320rpx;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.message-item:hover {
+  transform: translateY(-5rpx);
+  box-shadow: 0 8rpx 25rpx rgba(0, 0, 0, 0.15);
+}
+
+.message-avatar {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15rpx;
+  align-self: center;
+}
+
+.avatar-text {
+  color: white;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.message-content {
+  flex: 1;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+  flex-wrap: wrap;
+}
+
+.message-name {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #333;
+  margin-right: 10rpx;
+}
+
+.message-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.message-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+  word-wrap: break-word;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 右下角新增留言按钮 */
+/* 新增按钮 */
+.add-btn {
+  position: fixed;
+  right: 30rpx;
+  bottom: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+  border-radius: 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 30rpx rgba(255, 107, 157, 0.4);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.add-btn:active {
+  transform: scale(0.9);
+  box-shadow: 0 4rpx 15rpx rgba(255, 107, 157, 0.3);
+}
+
+.add-icon {
+  font-size: 40rpx;
+  color: white;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.add-text {
+  font-size: 20rpx;
+  color: white;
+  margin-top: 5rpx;
+}
+
+/* 弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20rpx;
+  width: 90%;
+  max-width: 600rpx;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 30rpx 20rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 48rpx;
+  color: #999;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 30rpx;
+}
+
+.form-group {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+  font-weight: bold;
 }
 
 .form-input {
@@ -73,6 +286,7 @@
   font-size: 28rpx;
   box-sizing: border-box;
   line-height: 1.6;
+  position: relative;
 }
 
 .form-textarea:focus {
@@ -87,94 +301,35 @@
   color: #999;
 }
 
-.submit-btn {
-  width: 100%;
-  height: 80rpx;
-  font-size: 32rpx;
-}
-
-/* 留言列表 */
-.message-list {
-  margin-bottom: 40rpx;
-}
-
-.list-header {
+.modal-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30rpx;
+  padding: 20rpx 30rpx 30rpx;
+  border-top: 2rpx solid #f0f0f0;
 }
 
-.list-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-}
-
-.list-count {
-  font-size: 24rpx;
-  color: #999;
-}
-
-.message-item {
-  display: flex;
-  background: white;
-  border-radius: 15rpx;
-  padding: 30rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
-}
-
-.message-avatar {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20rpx;
-  flex-shrink: 0;
-}
-
-.avatar-text {
-  color: white;
-  font-size: 32rpx;
-  font-weight: bold;
-}
-
-.message-content {
-  flex: 1;
-}
-
-.message-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15rpx;
-}
-
-.message-name {
-  font-size: 28rpx;
-  font-weight: bold;
-  color: #333;
-}
-
-.message-time {
-  font-size: 24rpx;
-  color: #999;
-}
-
-.message-text {
-  font-size: 28rpx;
+.btn-secondary {
+  background: #f5f5f5;
   color: #666;
-  line-height: 1.6;
+  border: none;
+  border-radius: 10rpx;
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+  color: white;
+  border: none;
+  border-radius: 10rpx;
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
 }
 
 /* 加载更多 */
 .load-more {
   text-align: center;
-  margin-top: 40rpx;
+  margin-top: 20rpx;
 }
 
 /* 空状态 */
@@ -183,13 +338,26 @@
   padding: 100rpx 0;
 }
 
-.empty-image {
-  width: 200rpx;
-  height: 200rpx;
-  margin-bottom: 30rpx;
-}
-
 .empty-text {
   font-size: 28rpx;
   color: #999;
+}
+
+/* 通用背景图片解决方案 */
+.container {
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('http://124.222.172.221:9000/marry/bg4.jpg') no-repeat;
+  background-size: cover;
+  background-position: center center;
+  z-index: -1;
+  pointer-events: none;
 } 

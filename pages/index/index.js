@@ -223,21 +223,21 @@ Page({
 
   // 导航到故事页面
   goToStory() {
-    wx.switchTab({
+    wx.navigateTo({
       url: '/pages/story/story'
     })
   },
 
   // 导航到相册页面
   goToPhoto() {
-    wx.switchTab({
+    wx.navigateTo({
       url: '/pages/photo/photo'
     })
   },
 
   // 导航到留言页面
   goToMessage() {
-    wx.switchTab({
+    wx.navigateTo({
       url: '/pages/message/message'
     })
   },
@@ -305,6 +305,27 @@ Page({
           reject(err)
         }
       })
+    })
+  },
+
+  // 蓝色按钮点击事件
+  onBlueButtonClick() {
+    // 跳转到story页面
+    wx.navigateTo({
+      url: '/pages/story/story'
+    })
+  },
+  onBlueButtonClick2() {
+    // 跳转到photo页面
+    console.log("222")
+    wx.navigateTo({
+      url: '/pages/photo/photo'
+    })
+  },
+  onBlueButtonClick3() {
+    // 跳转到message页面
+    wx.navigateTo({
+      url: '/pages/message/message'
     })
   }
 }) 

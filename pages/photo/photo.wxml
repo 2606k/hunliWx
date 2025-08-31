@@ -43,9 +43,9 @@
         data-urls="{{allPhotoUrls}}"
       >
         <image src="{{item.url}}" mode="widthFix" class="photo-image"></image>
-        <view class="photo-info">
-          <view class="photo-desc">{{item.desc}}</view>
-          <view class="photo-time">{{item.createTimeStr}}</view>
+        <view class="photo-info" wx:if="false">
+          <view class="photo-desc" wx:if="false">{{item.desc}}</view>
+          <view class="photo-time" wx:if="false">{{item.createTimeStr}}</view>
         </view>
         <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}">
           <text class="delete-icon">×</text>
@@ -63,9 +63,9 @@
         data-urls="{{allPhotoUrls}}"
       >
         <image src="{{item.url}}" mode="widthFix" class="photo-image"></image>
-        <view class="photo-info">
-          <view class="photo-desc">{{item.desc}}</view>
-          <view class="photo-time">{{item.createTimeStr}}</view>
+        <view class="photo-info" wx:if="false">
+          <view class="photo-desc" wx:if="false">{{item.desc}}</view>
+          <view class="photo-time" wx:if="false">{{item.createTimeStr}}</view>
         </view>
         <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}">
           <text class="delete-icon">×</text>

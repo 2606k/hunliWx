@@ -1,20 +1,26 @@
 /* pages/story/story.wxss */
-.container {
-  padding: 30rpx;
-  background: url('http://124.222.172.221:9000/marry/bg2.jpg') no-repeat;
+/* 页面根背景，固定在视口上 */
+page {
+  background: url('http://124.222.172.221:9000/marry/bg2.jpg') no-repeat fixed;
   background-size: cover;
   background-position: center center;
+}
+
+.container {
+  padding: 30rpx;
   min-height: 100vh;
+  /* 移除背景相关属性，背景现在由page控制 */
 }
 
 /* 页面标题 */
 .page-header {
   text-align: center;
-  margin-bottom: 40rpx;
+  /* margin-bottom: 40rpx; */
+  /* margin: 20rpx 0 30rpx 0; */
 }
 
 .title {
-  font-size: 48rpx;
+  font-size: 40rpx;
   font-weight: bold;
   color: #333;
   margin-bottom: 15rpx;
@@ -45,7 +51,7 @@
 
 .timeline-item {
   display: flex;
-  margin-bottom: 40rpx;
+  margin-bottom: 30rpx;
   position: relative;
   justify-content: space-around;
   width: 100%;

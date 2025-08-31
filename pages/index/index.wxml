@@ -2,6 +2,12 @@
 <view class="container">
   <!-- 背景音乐组件 -->
   <bgm></bgm>
+  
+  <!-- 蓝色按钮 - 绝对定位在指定区域 -->
+  <view class="blue-button" bindtap="onBlueButtonClick"></view>
+  <view class="blue-button2" bindtap="onBlueButtonClick2"></view>
+  <view class="blue-button3" bindtap="onBlueButtonClick3"></view>
+  
   <!-- <view class="backImg">
     <image src="http://124.222.172.221:9000/marry/indexPhoto.jpg"></image>
   </view> -->
@@ -17,7 +23,7 @@
   <!-- 主要内容 -->
   <view class="main-content">
     <!-- 新人信息 -->
-    <view class="couple-info">
+    <!-- <view class="couple-info">
       <view class="names">
         <text class="name">{{weddingInfo.brideName}}</text>
         <text class="and">&</text>
@@ -25,10 +31,10 @@
       </view>
       <view class="wedding-date">{{formattedDate}}</view>
       <view class="location">{{weddingInfo.weddingLocation}}</view>
-    </view>
+    </view> -->
 
     <!-- 倒计时区域 - 对所有用户显示 -->
-    <view class="countdown-section">
+    <!-- <view class="countdown-section">
       <view class="countdown-title">距离婚礼还有</view>
       <view class="countdown-time">
         <view class="time-item">
@@ -48,7 +54,7 @@
           <text class="time-label">秒</text>
         </view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 用户授权区域 -->
     <view class="auth-section" wx:if="{{!hasUserInfo}}">
@@ -66,7 +72,7 @@
     <!-- 已授权用户功能区域 -->
     <view class="feature-section" wx:if="{{hasUserInfo}}">
       <!-- 核心功能 -->
-      <view class="core-features">
+      <!-- <view class="core-features">
         <view class="feature-item" bindtap="goToMessage">
           <view class="feature-icon">💝</view>
           <view class="feature-content">
@@ -84,10 +90,10 @@
           </view>
           <view class="feature-arrow">></view>
         </view>
-      </view>
+      </view> -->
 
       <!-- 用户信息展示 -->
-      <view class="user-info-section">
+      <!-- <view class="user-info-section">
         <view class="user-avatar">
           <image src="{{userInfo.avatarUrl}}" mode="aspectFill" class="avatar-image"></image>
         </view>
@@ -95,7 +101,7 @@
           <view class="user-name">{{userInfo.nickName}}</view>
           <view class="user-status">已授权 · 欢迎您</view>
         </view>
-      </view>
+      </view> -->
     </view>
   </view>
 </view> 

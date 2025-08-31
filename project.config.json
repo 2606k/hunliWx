@@ -53,7 +53,7 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.9.0",
+  "libVersion": "3.8.9",
   "appid": "wx1af9a7ab62196405",
   "projectname": "wedding-miniprogram",
   "isGameTourist": false,

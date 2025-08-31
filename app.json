@@ -16,38 +16,7 @@
     "bgm": "/components/bgm/bgm",
     "home-btn": "/components/home-btn/home-btn"
   },
-  "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#ff6b9d",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "black",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "images/tabbar/index.png",
-        "selectedIconPath": "images/tabbar/index.png"
-      },
-      {
-        "pagePath": "pages/story/story",
-        "text": "我们的故事",
-        "iconPath": "images/tabbar/story.png",
-        "selectedIconPath": "images/tabbar/story.png"
-      },
-      {
-        "pagePath": "pages/photo/photo",
-        "text": "相册",
-        "iconPath": "images/tabbar/photo.png",
-        "selectedIconPath": "images/tabbar/photo.png"
-      },
-      {
-        "pagePath": "pages/message/message",
-        "text": "留言",
-        "iconPath": "images/tabbar/message.png",
-        "selectedIconPath": "images/tabbar/message.png"
-      }
-    ]
-  },
+
   "permission": {
     "scope.userLocation": {
       "desc": "用于获取您的位置信息"

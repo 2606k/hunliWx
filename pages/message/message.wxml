@@ -4,63 +4,68 @@
   <bgm></bgm>
   <!-- 返回首页按钮 -->
   <home-btn></home-btn>
+  
   <!-- 页面标题 -->
   <view class="page-header">
     <view class="title">留言祝福</view>
     <view class="subtitle">留下您的美好祝福</view>
   </view>
-
-  <!-- 留言表单 -->
-  <view class="message-form">
-    <view class="form-card">
-      <view class="form-title">写下您的祝福</view>
-      
-      <view class="form-item">
-        <input 
-          class="form-input" 
-          placeholder="您的姓名（可选）" 
-          value="{{formData.name}}"
-          bindinput="onNameInput"
-          maxlength="20"
-        />
-      </view>
-      
-      <view class="form-item">
-        <textarea 
-          class="form-textarea" 
-          placeholder="写下您对新人的祝福..." 
-          value="{{formData.content}}"
-          bindinput="onContentInput"
-          maxlength="200"
-          auto-height
-        ></textarea>
-        <view class="char-count">{{formData.content.length}}/200</view>
-      </view>
-      
-      <button class="btn-primary submit-btn" bindtap="submitMessage" loading="{{submitting}}">
-        发送祝福
-      </button>
-    </view>
-  </view>
-
-  <!-- 留言列表 -->
-  <view class="message-list">
+  
+  <!-- 留言列表 - 三排自动滚动 -->
+  <view class="message-list-container">
     <view class="list-header">
       <view class="list-title">祝福留言</view>
       <view class="list-count">共{{messages.length}}条</view>
     </view>
     
-    <view class="message-item" wx:for="{{messages}}" wx:key="id">
-      <view class="message-avatar">
-        <text class="avatar-text">{{item.name ? item.name.charAt(0) : '匿'}}</text>
-      </view>
-      
-      <view class="message-content">
-        <view class="message-header">
-          <text class="message-name">{{item.name || '匿名'}}</text>
-          <text class="message-time">{{item.submitTimeStr}}</text>
+    <!-- 第一排留言 -->
+    <view class="message-row">
+      <view class="message-item" wx:for="{{messages}}" wx:key="id" wx:if="{{index % 3 === 0}}">
+        <!-- <view class="message-avatar">
+          <text class="avatar-text">{{item.name ? item.name.charAt(0) : '匿'}}</text>
+        </view> -->
+        
+        <view class="message-content">
+          <view class="message-header">
+            <text class="message-name">{{item.name || '匿名'}}</text>
+            <text class="message-time">{{item.submitTimeStr}}</text>
+          </view>
+          <view class="message-text">{{item.content}}</view>
         </view>
-        <view class="message-text">{{item.content}}</view>
+      </view>
+    </view>
+    
+    <!-- 第二排留言 -->
+    <view class="message-row">
+      <view class="message-item" wx:for="{{messages}}" wx:key="id" wx:if="{{index % 3 === 1}}">
+        <!-- <view class="message-avatar">
+          <text class="avatar-text">{{item.name ? item.name.charAt(0) : '匿'}}</text>
+        </view> -->
+        
+        <view class="message-content">
+          <view class="message-header">
+            <text class="message-name">{{item.name || '匿名'}}</text>
+            <text class="message-time">{{item.submitTimeStr}}</text>
+          </view>
+          <view class="message-text">{{item.content}}</view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 第三排留言 -->
+    <view class="message-row">
+      <view class="message-item" wx:for="{{messages}}" wx:key="id" wx:if="{{index % 3 === 2}}">
+        <!-- <view class="message-avatar">
+          <text class="avatar-text">{{item.name ? item.name.charAt(0) : '匿'}}</text>
+        </view> -->
+        
+        <view class="message-content">
+          <view class="message-header">
+            <text class="message-name">{{item.name || '匿名'}}</text>
+            <text class="message-time">{{item.submitTimeStr}}</text>
+          </view>
+          <view class="message-text">{{item.content}}</view>
+        </view>
       </view>
     </view>
   </view>
@@ -75,5 +80,39 @@
   <!-- 空状态 -->
   <view class="empty-state" wx:if="{{messages.length === 0 && !loading}}">
     <view class="empty-text">还没有留言，快来写下您的祝福吧！</view>
+  </view>
+
+  <!-- 右下角新增留言按钮 -->
+  <view class="add-btn" bindtap="showAddMessageModal">
+    <text class="add-icon">+</text>
+    <text class="add-text">祝福新人</text>
+  </view>
+
+  <!-- 新增留言弹窗 -->
+  <view class="modal-overlay" wx:if="{{showAddModal}}" bindtap="hideAddMessageModal">
+    <view class="modal-content" catchtap="preventClose">
+      <view class="modal-header">
+        <text class="modal-title">写下您的祝福</text>
+        <text class="modal-close" bindtap="hideAddMessageModal">×</text>
+      </view>
+      
+      <view class="modal-body">
+        <view class="form-group">
+          <text class="form-label">您的姓名（可选）</text>
+          <input class="form-input" placeholder="请输入您的姓名" value="{{formData.name}}" bindinput="onNameInput" maxlength="20" />
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">祝福内容</text>
+          <textarea class="form-textarea" placeholder="写下您对新人的祝福..." value="{{formData.content}}" bindinput="onContentInput" maxlength="200" auto-height></textarea>
+          <view class="char-count">{{formData.content.length}}/200</view>
+        </view>
+      </view>
+      
+      <view class="modal-footer">
+        <button class="btn-secondary" bindtap="hideAddMessageModal">取消</button>
+        <button class="btn-primary" bindtap="submitMessage" loading="{{submitting}}">发送祝福</button>
+      </view>
+    </view>
   </view>
 </view> 

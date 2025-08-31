@@ -591,13 +591,13 @@ Page({
       },
       success: (res) => {
         if (res.data.code === 200) {
-          const storyData = res.data.data
-          const storyId = storyData.id
+          // const storyData = res.data.data,
+          // const storyId = storyData.id,
           
           // 如果有图片ID，关联图片和故事
-          if (photoIds.length > 0) {
-            // this.associatePhotosWithStory(photoIds, storyId)
-          } else {
+          // if (photoIds.length > 0) {
+          //   // this.associatePhotosWithStory(photoIds, storyId)
+          // } else {
             wx.showToast({
               title: '故事创建成功',
               icon: 'success'
@@ -613,7 +613,6 @@ Page({
               hasMore: true
             })
             this.loadStories()
-          }
         } else {
           wx.showToast({
             title: res.data.msg || '创建失败',
