@@ -1,0 +1,154 @@
+<!--pages/story/story.wxml-->
+<view class="container">
+  <!-- 背景音乐组件 -->
+  <bgm></bgm>
+  <!-- 返回首页按钮 -->
+  <home-btn></home-btn>
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="title">我们的故事</view>
+    <view class="subtitle">记录每一个美好瞬间</view>
+  </view>
+
+  <!-- 新增故事按钮（已隐藏） -->
+  <view class="add-btn" bindtap="showAddStoryModal" v-if="openid != 'oIFv26_VRFlCl0mJ7Iy8HnWFo-xk'">
+    <text class="add-icon">+</text>
+    <text class="add-text">新增故事</text>
+  </view>
+
+  <!-- 时间轴 -->
+  <view class="timeline">
+    <view class="timeline-item" wx:for="{{stories}}" wx:key="id">
+      <!-- 时间轴左侧 -->
+      <view class="timeline-left">
+        <view class="timeline-date" style="background-image: url('http://124.222.172.221:9000/marry/storydate.png');width: 120px;">
+          <view class="date-time">{{item.eventTimeStr}}</view>
+        </view>
+      </view>
+
+      <!-- 时间轴右侧内容 -->
+      <view class="timeline-content">
+        <view class="story-card" bindlongpress="showDeleteConfirm" data-id="{{item.id}}" data-title="{{item.title}}">
+          <view class="story-title">
+            {{item.title}}
+            <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}" data-title="{{item.title}}">
+              <text class="delete-icon">×</text>
+            </view>
+          </view>
+          <view class="story-content-wrapper">
+            <!-- 图文混排内容 -->
+            <rich-text nodes="{{item.parsedContent}}" class="story-content"></rich-text>
+            <image wx:if="{{item.gender == 1}}" class="gender-icon" src="http://124.222.172.221:9000/marry/1.svg" mode="aspectFit"></image>
+            <image wx:if="{{item.gender == 0}}" class="gender-icon" src="http://124.222.172.221:9000/marry/0.svg" mode="aspectFit"></image>
+          </view>
+          
+          <!-- 故事配图 -->
+          <view class="story-images" wx:if="{{item.photos && item.photos.length > 0}}">
+            <image 
+              wx:for="{{item.photos}}" 
+              wx:for-item="photo" 
+              wx:key="id"
+              src="{{photo.url}}" 
+              mode="aspectFill" 
+              class="story-image"
+              bindtap="previewImage"
+              data-urls="{{item.photos}}"
+              data-current="{{photo.url}}"
+            ></image>
+          </view>
+          
+          <!-- 移除故事时间显示，已经显示在左侧图片上 -->
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore}}">
+    <button class="btn-secondary" bindtap="loadMore" loading="{{loading}}">
+      加载更多故事
+    </button>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{stories.length === 0 && !loading}}">
+    <view class="empty-text">还没有故事，敬请期待...</view>
+  </view>
+
+  <!-- 新增故事弹窗 -->
+  <view class="modal-overlay" wx:if="{{showAddModal}}" bindtap="hideAddStoryModal">
+    <view class="modal-content" catchtap="preventClose">
+      <view class="modal-header">
+        <text class="modal-title">新增故事</text>
+        <text class="modal-close" bindtap="hideAddStoryModal">×</text>
+      </view>
+      
+      <view class="modal-body">
+        <view class="form-group">
+          <text class="form-label">故事标题</text>
+          <input class="form-input" placeholder="请输入故事标题" value="{{formData.title}}" bindinput="onTitleInput" />
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">故事内容</text>
+          <textarea class="form-textarea" placeholder="请输入故事内容" value="{{formData.content}}" bindinput="onContentInput" maxlength="2000"></textarea>
+          
+          <!-- 图文混排工具栏 -->
+          <view class="rich-editor-toolbar">
+            <view class="toolbar-btn" bindtap="insertImage">
+              <text class="toolbar-icon">🖼️</text>
+              <text class="toolbar-text">插入图片</text>
+            </view>
+          </view>
+          
+          <!-- 图文混排预览 -->
+          <!-- <view class="rich-content-preview" wx:if="{{richContentPreview.length > 0}}">
+            <view class="preview-title">内容预览：</view>
+            <view class="preview-blocks">
+              <block wx:for="{{richContentPreview}}" wx:key="index">
+                <text wx:if="{{item.type === 'text'}}" class="preview-text">{{item.content}}</text>
+                <block wx:if="{{item.type === 'image'}}">
+                  <view class="image-container">
+                    <image src="{{item.content}}" mode="widthFix" class="preview-rich-image" binderror="onImageError" data-index="{{index}}" bindload="onImageLoad" data-index="{{index}}"></image>
+                    <view class="image-debug-info">
+                      <view class="image-url-debug">显示URL: {{item.content}}</view>
+                      <view class="image-url-debug" wx:if="{{item.originalUrl !== item.content}}">原始URL: {{item.originalUrl}}</view>
+                      <view class="image-load-status" wx:if="{{item.loadStatus}}">状态: {{item.loadStatus}}</view>
+                    </view>
+                  </view>
+                </block>
+              </block>
+            </view>
+          </view> -->
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">性别</text>
+          <radio-group class="gender-radio-group" bindchange="onGenderChange">
+            <label class="radio-label">
+              <radio value="1" checked="{{formData.gender == 1}}" />男主
+            </label>
+            <label class="radio-label">
+              <radio value="0" checked="{{formData.gender == 0}}" />女主
+            </label>
+          </radio-group>
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">故事时间</text>
+          <picker mode="date" value="{{formData.eventTime}}" bindchange="onDateChange">
+            <view class="form-picker">
+              <text>{{formData.eventTime || '请选择故事时间'}}</text>
+              <text class="picker-arrow">▼</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+      
+      <view class="modal-footer">
+        <button class="btn-secondary" bindtap="hideAddStoryModal">取消</button>
+        <button class="btn-primary" bindtap="addStory" loading="{{submitting}}">保存</button>
+      </view>
+    </view>
+  </view>
+</view> 

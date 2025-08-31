@@ -1,0 +1,8 @@
+<!-- components/bgm/bgm.wxml -->
+<view class="bgm-container" bindtap="togglePlay">
+  <image 
+    class="music-icon {{isPlaying ? 'rotate' : ''}}" 
+    src="{{musicIconUrl}}" 
+    animation="{{animationData}}"
+  ></image>
+</view> 

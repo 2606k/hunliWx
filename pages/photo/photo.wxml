@@ -1,0 +1,88 @@
+<!--pages/photo/photo.wxml-->
+<view class="container">
+  <!-- 背景音乐组件 -->
+  <bgm></bgm>
+  <!-- 返回首页按钮 -->
+  <home-btn></home-btn>
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="title">相册</view>
+    <view class="subtitle">记录美好时光</view>
+  </view>
+
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-type="all">
+      全部
+    </view>
+    <view class="filter-item {{currentFilter === 'story' ? 'active' : ''}}" bindtap="setFilter" data-type="story">
+      故事配图
+    </view>
+    <view class="filter-item {{currentFilter === 'wedding' ? 'active' : ''}}" bindtap="setFilter" data-type="wedding">
+      婚礼照片
+    </view>
+  </view>
+
+  <!-- 上传按钮 -->
+  <view class="upload-btn-container">
+    <button class="upload-btn" bindtap="uploadPhotos">
+      <text class="upload-icon">+</text>
+      <text>上传婚礼照片</text>
+    </button>
+  </view>
+
+  <!-- 瀑布流相册 -->
+  <view class="waterfall">
+    <view class="waterfall-column">
+      <view 
+        class="photo-item" 
+        wx:for="{{leftPhotos}}" 
+        wx:key="id"
+        bindtap="previewImage"
+        data-url="{{item.url}}"
+        data-urls="{{allPhotoUrls}}"
+      >
+        <image src="{{item.url}}" mode="widthFix" class="photo-image"></image>
+        <view class="photo-info">
+          <view class="photo-desc">{{item.desc}}</view>
+          <view class="photo-time">{{item.createTimeStr}}</view>
+        </view>
+        <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}">
+          <text class="delete-icon">×</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="waterfall-column">
+      <view 
+        class="photo-item" 
+        wx:for="{{rightPhotos}}" 
+        wx:key="id"
+        bindtap="previewImage"
+        data-url="{{item.url}}"
+        data-urls="{{allPhotoUrls}}"
+      >
+        <image src="{{item.url}}" mode="widthFix" class="photo-image"></image>
+        <view class="photo-info">
+          <view class="photo-desc">{{item.desc}}</view>
+          <view class="photo-time">{{item.createTimeStr}}</view>
+        </view>
+        <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}">
+          <text class="delete-icon">×</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore}}">
+    <button class="btn-secondary" bindtap="loadMore" loading="{{loading}}">
+      加载更多照片
+    </button>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{leftPhotos.length === 0 && rightPhotos.length === 0 && !loading}}">
+    <view class="empty-text">还没有照片，敬请期待...</view>
+  </view>
+</view> 

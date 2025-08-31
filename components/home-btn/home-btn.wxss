@@ -1,0 +1,21 @@
+/* components/home-btn/home-btn.wxss */
+.home-btn {
+  position: fixed;
+  top: 20rpx;
+  left: 20rpx;
+  z-index: 999;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.home-icon {
+  font-size: 48rpx;
+  color: #ff6b9d;
+  line-height: 1;
+} 

@@ -1,0 +1,4 @@
+<!--components/home-btn/home-btn.wxml-->
+<view class="home-btn" bindtap="goToHome">
+  <text class="home-icon">⌂</text>
+</view> 

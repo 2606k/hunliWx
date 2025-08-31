@@ -1,0 +1,170 @@
+/* pages/photo/photo.wxss */
+.container {
+  padding: 30rpx;
+  background: url('http://124.222.172.221:9000/marry/bg3.jpg') no-repeat;
+  background-size: cover;
+  background-position: center center;
+  min-height: 100vh;
+}
+
+/* 页面标题 */
+.page-header {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: rgb(185, 72, 72);
+  margin-bottom: 15rpx;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: rgb(134, 52, 52);
+}
+
+/* 筛选栏 */
+.filter-bar {
+  display: flex;
+  background: white;
+  border-radius: 15rpx;
+  padding: 10rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
+}
+
+.filter-item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.filter-item.active {
+  background: #ff6b9d;
+  color: white;
+}
+
+/* 上传按钮 */
+.upload-btn-container {
+  margin-bottom: 30rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.upload-btn {
+  background: #ff6b9d;
+  color: white;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  padding: 15rpx 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.upload-icon {
+  font-size: 36rpx;
+  margin-right: 10rpx;
+  font-weight: bold;
+}
+
+/* 瀑布流 */
+.waterfall {
+  display: flex;
+  gap: 20rpx;
+}
+
+.waterfall-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.photo-item {
+  background: white;
+  border-radius: 15rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.photo-item:active {
+  transform: scale(0.98);
+}
+
+.photo-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.photo-info {
+  padding: 20rpx;
+}
+
+.photo-desc {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+  line-height: 1.4;
+}
+
+.photo-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 删除按钮样式 */
+.delete-btn {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  width: 50rpx;
+  height: 50rpx;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.delete-icon {
+  color: white;
+  font-size: 36rpx;
+  font-weight: bold;
+  line-height: 1;
+}
+
+/* 加载更多 */
+.load-more {
+  text-align: center;
+  margin-top: 40rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+}
+
+.empty-image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+} 
