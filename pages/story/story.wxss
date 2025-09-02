@@ -157,12 +157,11 @@ page {
 } */
 
 .story-title {
-  font-size: 36rpx;
+  font-size: 40rpx;
   font-weight: bold;
   /* color: #333; */
-  -webkit-text-stroke: 0.7px black; 
-  -webkit-text-fill-color : transparent;
-  font-weight: bold;
+  -webkit-text-stroke: 0.2px black; 
+  /* -webkit-text-fill-color : transparent; */
   color:#fff;
   margin-bottom: 20rpx;
   display: flex;

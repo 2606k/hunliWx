@@ -1,18 +1,14 @@
 // components/bgm/bgm.js
+/**
+ * 全局BGM组件
+ * 使用全局BGM管理器实现跨页面状态同步
+ * @author tangxin
+ */
 Component({
   properties: {
-    musicUrls: {
-      type: Array,
-      value: [
-        'http://124.222.172.221:9000/marry//20250811try.mp3',
-        'http://124.222.172.221:9000/marry//20250811独家记忆.mp3',
-        'http://124.222.172.221:9000/marry//20250811传奇.mp3',
-        'http://124.222.172.221:9000/marry//20250811爱就一个字_3.mp3'
-      ]
-    },
     musicIconUrl: {
       type: String,
-      value: 'http://124.222.172.221:9000/marry//Music.svg'
+      value: '/images/Music.svg'
     }
   },
 
@@ -24,37 +20,33 @@ Component({
 
   lifetimes: {
     attached() {
-      this.initAudio();
+      this.initGlobalBGM();
       this.initAnimation();
     },
     detached() {
-      if (this.audioContext) {
-        this.audioContext.destroy();
-      }
+      this.cleanup();
     }
   },
 
   methods: {
-    initAudio() {
-      const { musicUrls } = this.properties;
-      const { currentMusicIndex } = this.data;
+    // 初始化全局BGM管理器连接
+    initGlobalBGM() {
+      const app = getApp();
+      if (!app.bgmManager) {
+        console.error('全局BGM管理器未初始化');
+        return;
+      }
       
-      // 创建音频上下文
-      this.audioContext = wx.createInnerAudioContext();
-      this.audioContext.src = musicUrls[currentMusicIndex];
-      this.audioContext.loop = false; // 不循环单曲，我们自己处理切换
-      this.audioContext.autoplay = true;
+      // 添加状态监听器
+      this.bgmStateCallback = (state) => {
+        this.setData({
+          isPlaying: state.isPlaying,
+          currentMusicIndex: state.currentMusicIndex
+        });
+        this.updateIconAnimation(state.isPlaying);
+      };
       
-      // 监听播放结束
-      this.audioContext.onEnded(() => {
-        this.playNextMusic();
-      });
-      
-      // 监听播放错误
-      this.audioContext.onError((res) => {
-        console.error('音频播放错误:', res);
-        this.playNextMusic(); // 出错时尝试播放下一首
-      });
+      app.bgmManager.addListener(this.bgmStateCallback);
     },
     
     initAnimation() {
@@ -65,20 +57,12 @@ Component({
       });
     },
     
+    // 切换播放/暂停状态
     togglePlay() {
-      const { isPlaying } = this.data;
-      
-      if (isPlaying) {
-        this.audioContext.pause();
-      } else {
-        this.audioContext.play();
+      const app = getApp();
+      if (app.bgmManager) {
+        app.bgmManager.togglePlay();
       }
-      
-      this.setData({
-        isPlaying: !isPlaying
-      });
-      
-      this.updateIconAnimation(!isPlaying);
     },
     
     updateIconAnimation(isPlaying) {
@@ -111,19 +95,13 @@ Component({
       }
     },
     
-    playNextMusic() {
-      const { musicUrls } = this.properties;
-      let { currentMusicIndex } = this.data;
-      
-      // 切换到下一首歌
-      currentMusicIndex = (currentMusicIndex + 1) % musicUrls.length;
-      
-      this.setData({ currentMusicIndex });
-      this.audioContext.src = musicUrls[currentMusicIndex];
-      
-      if (this.data.isPlaying) {
-        this.audioContext.play();
+    // 清理资源
+    cleanup() {
+      const app = getApp();
+      if (app.bgmManager && this.bgmStateCallback) {
+        app.bgmManager.removeListener(this.bgmStateCallback);
       }
+      this.stopRotateAnimation();
     }
   }
 }) 
