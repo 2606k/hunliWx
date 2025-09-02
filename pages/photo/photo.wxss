@@ -80,24 +80,80 @@ page {
   font-weight: bold;
 }
 
-/* 瀑布流 */
+/* 滑动容器样式 */
+.photo-swiper {
+  width: 100%;
+  height: calc(100vh - 300rpx);
+}
+
+/* 单张照片容器 */
+.single-photo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.single-photo-item {
+  width: 100%;
+  height: 100%;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 15rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.15);
+  /* background-color: rgba(255, 255, 255, 0.1); */
+  backdrop-filter: blur(5px);
+  transition: transform 0.3s ease;
+  
+  /* 白色相框样式 */
+  background-color: white;
+  padding: 40rpx 40rpx 80rpx 40rpx; /* 底部留更多空间模拟相片效果 */
+  box-shadow: 
+    0 0 0 2rpx #f0f0f0,
+    0 4rpx 8rpx rgba(0, 0, 0, 0.1),
+    0 8rpx 20rpx rgba(0, 0, 0, 0.15);
+  border: 1rpx solid #e8e8e8;
+}
+
+.single-photo-item:active {
+  transform: scale(0.98);
+}
+
+.single-photo-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 瀑布流 - 保留但不使用 */
 .waterfall {
   display: flex;
   gap: 20rpx;
+  justify-content: center;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .waterfall-column {
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* gap: 20rpx; */
+  max-width: 45%;
 }
 
 .photo-item {
   overflow: hidden;
   transition: transform 0.3s ease;
   position: relative;
-  /* margin-bottom: 20rpx; */
+  margin-bottom: 20rpx;
+  border-radius: 10rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
 }
 
 .photo-item:active {
@@ -108,9 +164,8 @@ page {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 10rpx;
 }
-
-
 
 .photo-desc {
   font-size: 28rpx;
@@ -123,6 +178,41 @@ page {
   font-size: 24rpx;
   /* color: rgb(255, 255, 255); */
   color: transparent;
+}
+
+/* 页码指示器 */
+.page-indicator {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.indicator-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10rpx;
+  max-width: 80%;
+}
+
+.indicator-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 3rpx;
+  box-sizing: content-box;
+}
+
+.indicator-dot:hover {
+  background-color: rgba(255, 107, 157, 0.7);
+}
+
+.indicator-dot.active {
+  background-color: #ff6b9d;
+  transform: scale(1.2);
 }
 
 /* 删除按钮样式 */

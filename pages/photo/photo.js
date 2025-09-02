@@ -11,7 +11,13 @@ Page({
     page: 1,
     pageSize: 20,
     hasMore: true,
-    loading: false
+    loading: false,
+    // 分页相关数据
+    currentPageIndex: 0,
+    pageCount: 1,
+    photosPerPage: 1, // 修改为每页只显示1张照片
+    paginatedPhotos: [],
+    currentPhoto: null // 添加当前显示的照片
   },
 
   onLoad() {
@@ -44,7 +50,10 @@ Page({
       leftPhotos: [],
       rightPhotos: [],
       allPhotoUrls: [],
-      hasMore: true
+      hasMore: true,
+      currentPageIndex: 0,
+      paginatedPhotos: [],
+      currentPhoto: null
     })
     this.loadPhotos()
   },
@@ -135,15 +144,15 @@ Page({
   // 加载照片列表
   loadPhotos() {
     this.setData({ loading: true })
-    
-    let url = `${app.globalData.baseUrl}/wedding/photo/list`
+    let url = `${app.globalData.baseUrl}/wedding/photo/story/0`
+    // let url = `${app.globalData.baseUrl}/wedding/photo/list`
     
     // 根据筛选条件设置不同的URL
-    if (this.data.currentFilter === 'wedding') {
-      url = `${app.globalData.baseUrl}/wedding/photo/story/0`
-    } else if (this.data.currentFilter === 'story') {
-      url = `${app.globalData.baseUrl}/wedding/photo/story/1`
-    }
+    // if (this.data.currentFilter === 'wedding') {
+    //   url = `${app.globalData.baseUrl}/wedding/photo/story/0`
+    // } else if (this.data.currentFilter === 'story') {
+    //   url = `${app.globalData.baseUrl}/wedding/photo/story/1`
+    // }
     
     wx.request({
       url: url,
@@ -170,6 +179,8 @@ Page({
           })
           
           this.distributePhotos()
+          // 添加分页处理
+          this.paginatePhotos()
         } else {
           wx.showToast({
             title: res.data.message || '加载失败',
@@ -350,6 +361,74 @@ Page({
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
     const day = date.getDate().toString().padStart(2, '0')
     return `${year}-${month}-${day}`
-  }
+  },
+
+  // 修改分页相关方法
+  paginatePhotos() {
+    const allPhotos = this.data.allPhotos
+    const photosPerPage = this.data.photosPerPage
+    const pageCount = Math.ceil(allPhotos.length / photosPerPage)
+    
+    this.setData({
+      pageCount: pageCount > 0 ? pageCount : 1
+    })
+    
+    this.showCurrentPage()
+  },
   
+  // 显示当前页的照片
+  showCurrentPage() {
+    const allPhotos = this.data.allPhotos
+    const currentIndex = this.data.currentPageIndex
+    const currentPhoto = allPhotos[currentIndex] || null
+    
+    this.setData({
+      currentPhoto,
+      // 清空左右列的照片，因为现在只显示一张
+      leftPhotos: [],
+      rightPhotos: []
+    })
+  },
+  
+  // 切换到上一页
+  prevPage() {
+    if (this.data.currentPageIndex > 0) {
+      this.setData({
+        currentPageIndex: this.data.currentPageIndex - 1
+      })
+      this.showCurrentPage()
+    }
+  },
+  
+  // 切换到下一页
+  nextPage() {
+    if (this.data.currentPageIndex < this.data.allPhotos.length - 1) {
+      this.setData({
+        currentPageIndex: this.data.currentPageIndex + 1
+      })
+      this.showCurrentPage()
+    }
+  },
+  
+  // 滑动切换页面
+  onSwiperChange(e) {
+    const current = e.detail.current
+    if (current < this.data.allPhotos.length) {
+      this.setData({
+        currentPageIndex: current
+      })
+      this.showCurrentPage()
+    }
+  },
+
+  // 点击指示器跳转到指定页面
+  goToPage(e) {
+    const index = e.currentTarget.dataset.index
+    if (index >= 0 && index < this.data.allPhotos.length) {
+      this.setData({
+        currentPageIndex: index
+      })
+      this.showCurrentPage()
+    }
+  }
 }) 

@@ -5,10 +5,10 @@
   <!-- 返回首页按钮 -->
   <home-btn></home-btn>
   <!-- 页面标题 -->
-  <view class="page-header">
-    <view class="title">我们的故事</view>
-    <view class="subtitle">记录每一个美好瞬间</view>
-  </view>
+  <!-- <view class="page-header">
+    <view class="title"></view>
+    <view class="subtitle"></view>
+  </view> -->
 
   <!-- 新增故事按钮（已隐藏） -->
   <view class="add-btn" bindtap="showAddStoryModal" v-if="openid != 'oIFv26_VRFlCl0mJ7Iy8HnWFo-xk'">

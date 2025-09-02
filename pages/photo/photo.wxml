@@ -5,13 +5,13 @@
   <!-- 返回首页按钮 -->
   <home-btn></home-btn>
   <!-- 页面标题 -->
-  <view class="page-header">
+  <!-- <view class="page-header">
     <view class="title">相册</view>
     <view class="subtitle">记录美好时光</view>
-  </view>
+  </view> -->
 
   <!-- 筛选栏 -->
-  <view class="filter-bar">
+  <!-- <view class="filter-bar">
     <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-type="all">
       全部
     </view>
@@ -21,56 +21,47 @@
     <view class="filter-item {{currentFilter === 'wedding' ? 'active' : ''}}" bindtap="setFilter" data-type="wedding">
       婚礼照片
     </view>
-  </view>
+  </view> -->
 
   <!-- 上传按钮 -->
-  <view class="upload-btn-container">
+  <!-- <view class="upload-btn-container">
     <button class="upload-btn" bindtap="uploadPhotos">
       <text class="upload-icon">+</text>
       <text>上传婚礼照片</text>
     </button>
-  </view>
+  </view> -->
 
-  <!-- 瀑布流相册 -->
-  <view class="waterfall">
-    <view class="waterfall-column">
-      <view 
-        class="photo-item" 
-        wx:for="{{leftPhotos}}" 
-        wx:key="id"
-        bindtap="previewImage"
-        data-url="{{item.url}}"
-        data-urls="{{allPhotoUrls}}"
-      >
-        <image src="{{item.url}}" mode="widthFix" class="photo-image"></image>
-        <view class="photo-info" wx:if="false">
-          <view class="photo-desc" wx:if="false">{{item.desc}}</view>
-          <view class="photo-time" wx:if="false">{{item.createTimeStr}}</view>
-        </view>
-        <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}">
-          <text class="delete-icon">×</text>
+  <!-- 滑动容器 -->
+  <swiper class="photo-swiper" current="{{currentPageIndex}}" bindchange="onSwiperChange">
+    <swiper-item wx:for="{{allPhotos}}" wx:key="id">
+      <!-- 单张照片展示 -->
+      <view class="single-photo-container">
+        <view 
+          class="single-photo-item" 
+          bindtap="previewImage"
+          data-url="{{item.url}}"
+          data-urls="{{allPhotoUrls}}"
+        >
+          <image src="{{item.url}}" mode="aspectFit" class="single-photo-image" lazy-load="true"></image>
+          <view class="photo-info" wx:if="false">
+            <view class="photo-desc" wx:if="false">{{item.desc}}</view>
+            <view class="photo-time" wx:if="false">{{item.createTimeStr}}</view>
+          </view>
         </view>
       </view>
-    </view>
-    
-    <view class="waterfall-column">
+    </swiper-item>
+  </swiper>
+
+  <!-- 页码指示器 -->
+  <view class="page-indicator" wx:if="{{allPhotos.length > 1}}">
+    <view class="indicator-dots">
       <view 
-        class="photo-item" 
-        wx:for="{{rightPhotos}}" 
-        wx:key="id"
-        bindtap="previewImage"
-        data-url="{{item.url}}"
-        data-urls="{{allPhotoUrls}}"
-      >
-        <image src="{{item.url}}" mode="widthFix" class="photo-image"></image>
-        <view class="photo-info" wx:if="false">
-          <view class="photo-desc" wx:if="false">{{item.desc}}</view>
-          <view class="photo-time" wx:if="false">{{item.createTimeStr}}</view>
-        </view>
-        <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}">
-          <text class="delete-icon">×</text>
-        </view>
-      </view>
+        wx:for="{{allPhotos}}" 
+        wx:key="id" 
+        class="indicator-dot {{currentPageIndex === index ? 'active' : ''}}"
+        bindtap="goToPage"
+        data-index="{{index}}"
+      ></view>
     </view>
   </view>
 
@@ -82,7 +73,7 @@
   </view>
 
   <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{leftPhotos.length === 0 && rightPhotos.length === 0 && !loading}}">
+  <view class="empty-state" wx:if="{{allPhotos.length === 0 && !loading}}">
     <view class="empty-text">还没有照片，敬请期待...</view>
   </view>
 </view> 

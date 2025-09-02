@@ -79,7 +79,7 @@ App({
   globalData: {
     userInfo: null,
     openid: null, // 添加openid字段
-    baseUrl: 'http://localhost:6688', // 本地开发服务器地址
+    baseUrl: 'http://localhost:8002', // 本地开发服务器地址
     weddingInfo: {
       brideName: '小美',
       groomName: '小明',
@@ -89,7 +89,9 @@ App({
     bgmPlaying: true,
     musicUrls: [
       'http://124.222.172.221:9000/marry//20250811try.mp3',
-      // 'http://124.222.172.221:9000/marry//20250812try.mp3'
+      'http://124.222.172.221:9000/marry//20250811独家记忆.mp3',
+      'http://124.222.172.221:9000/marry//20250811传奇.mp3',
+      'http://124.222.172.221:9000/marry//20250811爱就一个字_3.mp3'
     ]
   }
 }) 
