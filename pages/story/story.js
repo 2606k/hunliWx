@@ -79,18 +79,17 @@ Page({
           const pageData = res.data.data
           const stories = pageData.records.map(story => {
             const eventDate = new Date(story.eventTime)
-            return {
-              ...story,
+            return Object.assign({}, story, {
               eventDay: eventDate.getDate(),
               eventMonth: this.getMonthName(eventDate.getMonth()),
               eventTimeStr: this.formatDate(eventDate),
               photos: story.photos || [],
               parsedContent: this.parseRichContent(story.content) // 解析富文本内容
-            }
+            })
           })
           
           this.setData({
-            stories: this.data.page === 1 ? stories : [...this.data.stories, ...stories],
+            stories: this.data.page === 1 ? stories : this.data.stories.concat(stories),
             hasMore: pageData.current < pageData.pages,
             loading: false
           })
@@ -476,7 +475,7 @@ Page({
         
         // 合并到现有的临时图片数组
         this.setData({
-          tempPhotos: [...this.data.tempPhotos, ...newTempPhotos]
+          tempPhotos: this.data.tempPhotos.concat(newTempPhotos)
         })
       }
     })

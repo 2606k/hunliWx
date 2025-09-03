@@ -92,7 +92,7 @@ page {
   color:#fff;
   text-align: center;
   position: absolute;
-  top: 76rpx; /* 可以手动调整位置 */
+  top: 78rpx; /* 可以手动调整位置 */
   right: -20px;
   width: 100%;
 }

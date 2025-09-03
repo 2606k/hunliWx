@@ -224,12 +224,11 @@ Page({
             const displayName = message.name || message.nickName || '匿名'
             const avatarText = displayName !== '匿名' ? displayName.charAt(0) : '匿'
             
-            return {
-              ...message,
+            return Object.assign({}, message, {
               submitTimeStr: this.formatDate(new Date(message.submitTime)),
               displayName: displayName,
               avatarText: avatarText
-            }
+            })
           })
           
           // 确保留言数量足够支持三排布局，但不重复
@@ -239,12 +238,14 @@ Page({
             const repeatCount = Math.ceil(6 / messages.length)
             processedMessages = []
             for (let i = 0; i < repeatCount; i++) {
-              processedMessages.push(...messages)
+              for (let j = 0; j < messages.length; j++) {
+                processedMessages.push(messages[j])
+              }
             }
           }
           
           this.setData({
-            messages: this.data.page === 1 ? processedMessages : [...this.data.messages, ...processedMessages],
+            messages: this.data.page === 1 ? processedMessages : this.data.messages.concat(processedMessages),
             hasMore: messages.length === this.data.pageSize,
             loading: false
           })

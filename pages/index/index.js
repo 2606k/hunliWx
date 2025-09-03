@@ -178,10 +178,9 @@ Page({
         // 处理服务器返回的用户ID
         if (res.data.data) {
           // 将用户ID添加到userInfo中
-          const updatedUserInfo = {
-            ...userInfo,
+          const updatedUserInfo = Object.assign({}, userInfo, {
             userId: res.data.data
-          }
+          })
           
           // 更新本地存储
           wx.setStorageSync('userInfo', updatedUserInfo)
@@ -288,14 +287,12 @@ Page({
       wx.request({
         url: `${app.globalData.baseUrl}${options.url}`,
         method: options.method || 'GET',
-        data: {
-          userId: userId,
-          ...options.data
-        },
-        header: {
-          'Content-Type': 'application/json',
-          ...options.header
-        },
+        data: Object.assign({
+          userId: userId
+        }, options.data || {}),
+        header: Object.assign({
+          'Content-Type': 'application/json'
+        }, options.header || {}),
         success: (res) => {
           console.log('API请求成功:', res.data)
           resolve(res.data)

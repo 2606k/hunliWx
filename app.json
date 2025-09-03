@@ -12,11 +12,11 @@
     "navigationBarTextStyle": "black",
     "backgroundColor": "#f8f8f8"
   },
+  "lazyCodeLoading": "requiredComponents",
   "usingComponents": {
     "bgm": "/components/bgm/bgm",
     "home-btn": "/components/home-btn/home-btn"
   },
-
   "permission": {
     "scope.userLocation": {
       "desc": "用于获取您的位置信息"

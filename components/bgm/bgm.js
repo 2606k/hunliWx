@@ -20,8 +20,8 @@ Component({
 
   lifetimes: {
     attached() {
-      this.initGlobalBGM();
       this.initAnimation();
+      this.initGlobalBGM();
     },
     detached() {
       this.cleanup();
@@ -74,6 +74,11 @@ Component({
     },
     
     startRotateAnimation() {
+      if (!this.animation) {
+        console.warn('动画对象未初始化，跳过旋转动画');
+        return;
+      }
+      
       this.animation.rotate(360).step();
       this.setData({
         animationData: this.animation.export()
@@ -81,6 +86,11 @@ Component({
       
       // 重复动画
       this.rotateTimer = setInterval(() => {
+        if (!this.animation) {
+          clearInterval(this.rotateTimer);
+          this.rotateTimer = null;
+          return;
+        }
         this.animation.rotate(360).step();
         this.setData({
           animationData: this.animation.export()

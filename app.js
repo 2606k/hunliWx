@@ -15,7 +15,7 @@ class BGMManager {
       'http://124.222.172.221:9000/marry//20250811传奇.mp3',
       'http://124.222.172.221:9000/marry//20250811爱就一个字_3.mp3'
     ]
-    this.listeners = new Set() // 存储所有监听器
+    this.listeners = [] // 存储所有监听器
     this.init()
   }
 
@@ -72,26 +72,31 @@ class BGMManager {
 
   // 添加状态监听器
   addListener(callback) {
-    this.listeners.add(callback)
+    if (this.listeners.indexOf(callback) === -1) {
+      this.listeners.push(callback)
+    }
     // 立即返回当前状态
     callback(this.getState())
   }
 
   // 移除状态监听器
   removeListener(callback) {
-    this.listeners.delete(callback)
+    const index = this.listeners.indexOf(callback)
+    if (index > -1) {
+      this.listeners.splice(index, 1)
+    }
   }
 
   // 通知所有监听器状态变化
   notifyListeners() {
     const state = this.getState()
-    this.listeners.forEach(callback => {
+    for (let i = 0; i < this.listeners.length; i++) {
       try {
-        callback(state)
+        this.listeners[i](state)
       } catch (error) {
         console.error('BGM状态通知错误:', error)
       }
-    })
+    }
   }
 
   // 销毁音频上下文
@@ -100,7 +105,7 @@ class BGMManager {
       this.audioContext.destroy()
       this.audioContext = null
     }
-    this.listeners.clear()
+    this.listeners = []
   }
 }
 

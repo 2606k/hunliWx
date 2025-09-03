@@ -163,12 +163,11 @@ Page({
       },
       success: (res) => {
         if (res.data.code===200) {
-          const photos = res.data.data.map(photo => ({
-            ...photo,
+          const photos = res.data.data.map(photo => Object.assign({}, photo, {
             createTimeStr: this.formatDate(new Date(photo.createTime))
           }))
           
-          const allPhotos = this.data.page === 1 ? photos : [...this.data.allPhotos, ...photos]
+          const allPhotos = this.data.page === 1 ? photos : this.data.allPhotos.concat(photos)
           const allPhotoUrls = allPhotos.map(photo => photo.url)
           
           this.setData({
