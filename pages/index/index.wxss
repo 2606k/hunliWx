@@ -155,7 +155,7 @@
 
 .and {
   font-size: 36rpx;
-  color: #ff6b9d;
+  color: #eac122;
   margin: 0 20rpx;
   font-weight: bold;
   text-shadow: 0 2rpx 4rpx rgba(255, 107, 157, 0.3);
@@ -185,7 +185,7 @@
 
 .wedding-date {
   font-size: 26rpx;
-  color: #666;
+  color: #eac122;
   margin-bottom: 6rpx;
   font-weight: 500;
   letter-spacing: 1rpx;
@@ -200,7 +200,7 @@
 
 .location {
   font-size: 22rpx;
-  color: #999;
+  color: #eac122;
   font-weight: 500;
   letter-spacing: 1rpx;
   position: relative;
@@ -288,7 +288,7 @@
 .auth-title {
   font-size: 30rpx;
   font-weight: bold;
-  color: #333;
+  color: #eac122;
   margin-bottom: 15rpx;
   position: relative;
   z-index: 1;
@@ -297,7 +297,7 @@
 
 .auth-desc {
   font-size: 24rpx;
-  color: #666;
+  color: #eac122;
   margin-bottom: 30rpx;
   line-height: 1.6;
   position: relative;
@@ -306,7 +306,7 @@
 
 .btn-auth {
   background: linear-gradient(135deg, #ff6b9d, #ff8fab);
-  color: #fff;
+  color: #eac122;
   border: none;
   border-radius: 50rpx;
   padding: 28rpx 70rpx;
@@ -365,7 +365,7 @@
 
 .auth-tips {
   font-size: 22rpx;
-  color: #999;
+  color: #eac122;
 }
 
 /* 功能区域样式 */
@@ -449,7 +449,7 @@
 .time-number {
   font-size: 46rpx;
   font-weight: bold;
-  color: #ff6b9d;
+  color: #eac122;
   margin-bottom: 8rpx;
   text-shadow: 0 2rpx 4rpx rgba(255, 107, 157, 0.3);
   animation: countdownPulse 1s ease-in-out infinite;
