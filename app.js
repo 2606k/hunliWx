@@ -163,6 +163,8 @@ App({
   checkUserAuth() {
     const userInfo = wx.getStorageSync('userInfo')
     const openid = this.globalData.openid || wx.getStorageSync('openid')
+
+    console.log("dfdfdf",userInfo);
     return !!(userInfo && userInfo.userId && openid)
   },
   

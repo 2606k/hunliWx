@@ -10,8 +10,8 @@
     <view class="subtitle"></view>
   </view> -->
 
-  <!-- 新增故事按钮（已隐藏） -->
-  <view class="add-btn" bindtap="showAddStoryModal" v-if="openid != 'oIFv26_VRFlCl0mJ7Iy8HnWFo-xk'">
+  <!-- 新增故事按钮（仅在用户昵称为"安四爷"时显示） -->
+  <view class="add-btn" bindtap="showAddStoryModal" wx:if="{{userInfo.nickName == '安四爷' || userInfo.nickName == '奔向'}}">
     <text class="add-icon">+</text>
     <text class="add-text">新增故事</text>
   </view>
@@ -31,7 +31,7 @@
         <view class="story-card" bindlongpress="showDeleteConfirm" data-id="{{item.id}}" data-title="{{item.title}}">
           <view class="story-title">
             {{item.title}}
-            <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}" data-title="{{item.title}}">
+            <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}" data-title="{{item.title}}" wx:if="{{userInfo.nickName == '安四爷' || userInfo.nickName == '奔向'}}">
               <text class="delete-icon">×</text>
             </view>
           </view>

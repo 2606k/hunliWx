@@ -17,15 +17,37 @@ Page({
       gender: 1 // 默认为男性
     },
     richContentPreview: [], // 富文本内容预览
-    currentCursorPosition: 0 // 当前光标位置
+    currentCursorPosition: 0, // 当前光标位置
+    userInfo: null // 添加用户信息
   },
 
   onLoad() {
     this.checkAuth()
+    // 获取用户信息
+    this.getUserInfo()
   },
 
   onShow() {
     this.checkAuth()
+    // 获取用户信息
+    this.getUserInfo()
+  },
+
+  // 获取用户信息
+  getUserInfo() {
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo
+      })
+    } else {
+      // 如果app.globalData中没有用户信息，尝试从缓存获取
+      const userInfo = wx.getStorageSync('userInfo')
+      if (userInfo) {
+        this.setData({
+          userInfo: userInfo
+        })
+      }
+    }
   },
 
   // 检查用户授权状态

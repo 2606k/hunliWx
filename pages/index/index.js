@@ -110,7 +110,7 @@ Page({
         hasUserInfo: true
       })
       
-      console.log('用户已登录，用户ID:', userInfo.userId)
+      console.log('用户已登录，用户ID:', userInfo)
     } else if (userInfo && !userInfo.userId) {
       // 有用户信息但没有用户ID，需要重新获取
       console.log('检测到用户信息但缺少用户ID，需要重新登录')
