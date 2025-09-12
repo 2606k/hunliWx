@@ -11,6 +11,11 @@
     <view class="subtitle"></view>
   </view>
   
+  <!-- 未授权提示 -->
+  <view class="auth-tip" wx:if="{{!isAuthorized}}">
+    <text class="auth-tip-text">登录后可以发送祝福留言哦~</text>
+  </view>
+  
   <!-- 留言列表 - 三排自动滚动 -->
   <view class="message-list-container">
     <view class="list-header">

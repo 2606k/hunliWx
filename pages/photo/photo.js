@@ -17,7 +17,8 @@ Page({
     pageCount: 1,
     photosPerPage: 1, // 修改为每页只显示1张照片
     paginatedPhotos: [],
-    currentPhoto: null // 添加当前显示的照片
+    currentPhoto: null, // 添加当前显示的照片
+    isAuthorized: false // 添加授权状态
   },
 
   onLoad() {
@@ -30,10 +31,13 @@ Page({
 
   // 检查用户授权状态
   checkAuth() {
-    if (!app.checkUserAuth()) {
-      app.showAuthRequiredDialog()
-      return false
-    }
+    // 获取授权状态，但不强制要求授权
+    const isAuthorized = app.checkUserAuth()
+    this.setData({
+      isAuthorized: isAuthorized
+    })
+    
+    // 无论是否授权，都加载照片
     this.loadPhotos()
     return true
   },
@@ -244,15 +248,12 @@ Page({
 
   // 预览图片
   previewImage(e) {
-    if (!app.checkUserAuth()) {
-      app.showAuthRequiredDialog()
-      return
-    }
-    
+    // 移除授权检查，允许未授权用户预览图片
     const current = e.currentTarget.dataset.url
     const urls = e.currentTarget.dataset.urls
     
-    wx.previewImage({
+    // 使用全局预览方法
+    app.previewImage({
       urls: urls,
       current: current
     })

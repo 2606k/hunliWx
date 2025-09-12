@@ -56,17 +56,12 @@
       </view>
     </view> -->
 
-    <!-- 用户授权区域 -->
-    <view class="auth-section" wx:if="{{!hasUserInfo}}">
-      <view class="auth-card">
-        <view class="auth-icon">👤</view>
-        <view class="auth-title">欢迎来到我们的婚礼</view>
-        <view class="auth-desc">请授权获取您的信息，以便为您提供更好的服务</view>
-        <button class="btn-auth" bindtap="getUserProfile">
-          <text class="auth-btn-text">授权登录</text>
-        </button>
-        <view class="auth-tips">授权后可享受完整功能</view>
-      </view>
+    <!-- 用户授权区域 - 改为底部小按钮 -->
+    <view class="auth-bottom-section" wx:if="{{!hasUserInfo}}">
+      <button class="btn-auth-small" bindtap="getUserProfile">
+        <text class="auth-btn-text">授权登录</text>
+      </button>
+      <view class="auth-tips-small">授权后可留言祝福、查看更多功能</view>
     </view>
 
     <!-- 已授权用户功能区域 -->

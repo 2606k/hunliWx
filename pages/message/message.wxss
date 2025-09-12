@@ -360,6 +360,22 @@
   color: #eac122;
 }
 
+/* 未授权提示样式 */
+.auth-tip {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 30rpx;
+  padding: 15rpx 30rpx;
+  margin: 0 30rpx 20rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  border: 1rpx solid rgba(255, 107, 157, 0.3);
+}
+
+.auth-tip-text {
+  font-size: 24rpx;
+  color: #ff6b9d;
+}
+
 /* 通用背景图片解决方案 */
 .container {
   position: relative;

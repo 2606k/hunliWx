@@ -13,24 +13,35 @@ Page({
     pageSize: 20000,
     hasMore: true,
     loading: false,
-    showAddModal: false // 新增弹窗显示状态
+    showAddModal: false, // 新增弹窗显示状态
+    isAuthorized: false  // 添加用户授权状态标志
   },
 
   onLoad() {
-    this.checkAuth()
+    // 页面加载时只检查授权状态，不强制要求授权
+    this.checkAuthStatus()
+    // 无论是否授权，都加载留言列表
+    this.loadMessages()
   },
 
   onShow() {
-    this.checkAuth()
+    // 页面显示时检查授权状态
+    this.checkAuthStatus()
   },
 
-  // 检查用户授权状态
-  checkAuth() {
-    if (!app.checkUserAuth()) {
+  // 检查用户授权状态，但不强制要求授权
+  checkAuthStatus() {
+    const isAuthorized = app.checkUserAuth()
+    this.setData({ isAuthorized })
+    return isAuthorized
+  },
+
+  // 检查用户授权状态，如果需要授权才能执行的操作，则提示用户授权
+  checkAuthForAction() {
+    if (!this.data.isAuthorized) {
       app.showAuthRequiredDialog()
       return false
     }
-    this.loadMessages();
     return true
   },
 
@@ -48,11 +59,7 @@ Page({
   },
 
   onPullDownRefresh() {
-    if (!app.checkUserAuth()) {
-      wx.stopPullDownRefresh()
-      app.showAuthRequiredDialog()
-      return
-    }
+    // 下拉刷新不需要授权也可以查看留言列表
     this.setData({
       page: 1,
       messages: [],
@@ -62,10 +69,7 @@ Page({
   },
 
   onReachBottom() {
-    if (!app.checkUserAuth()) {
-      app.showAuthRequiredDialog()
-      return
-    }
+    // 上拉加载更多不需要授权也可以查看留言列表
     if (this.data.hasMore && !this.data.loading) {
       this.loadMore()
     }
@@ -87,8 +91,8 @@ Page({
 
   // 显示新增留言弹窗
   showAddMessageModal() {
-    if (!app.checkUserAuth()) {
-      app.showAuthRequiredDialog()
+    // 添加留言需要授权
+    if (!this.checkAuthForAction()) {
       return
     }
     
@@ -127,8 +131,8 @@ Page({
 
   // 提交留言
   submitMessage() {
-    if (!app.checkUserAuth()) {
-      app.showAuthRequiredDialog()
+    // 提交留言需要授权
+    if (!this.checkAuthForAction()) {
       return
     }
     

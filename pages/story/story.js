@@ -165,15 +165,12 @@ Page({
 
   // 预览图片
   previewImage(e) {
-    if (!app.checkUserAuth()) {
-      app.showAuthRequiredDialog()
-      return
-    }
-    
+    // 移除授权检查，允许未授权用户预览图片
     const urls = e.currentTarget.dataset.urls.map(photo => photo.url)
     const current = e.currentTarget.dataset.current
     
-    wx.previewImage({
+    // 使用全局预览方法
+    app.previewImage({
       urls: urls,
       current: current
     })

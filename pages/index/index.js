@@ -24,11 +24,16 @@ Page({
     // 格式化日期
     this.formatWeddingDate()
     
-    // 检查是否已有用户信息
-    this.checkUserInfo()
+    // 移除自动检查用户信息的代码，让用户可以先浏览功能
+    // this.checkUserInfo()
     
     // 开始倒计时
     this.startCountdown()
+  },
+
+  onShow() {
+    // 在页面显示时检查用户信息状态，但不强制要求登录
+    this.checkUserInfo()
   },
 
   onUnload() {
