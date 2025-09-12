@@ -11,7 +11,7 @@
   </view> -->
 
   <!-- 新增故事按钮（仅在用户昵称为"安四爷"时显示） -->
-  <view class="add-btn" bindtap="showAddStoryModal" wx:if="{{userInfo.nickName == '安四爷' || userInfo.nickName == '奔向'}}">
+  <view class="add-btn" bindtap="showAddStoryModal"  wx:if="{{userInfo.nickName == '安四爷' || userInfo.nickName == '奔向'}}">
     <text class="add-icon">+</text>
     <text class="add-text">新增故事</text>
   </view>
@@ -21,7 +21,7 @@
     <view class="timeline-item" wx:for="{{stories}}" wx:key="id">
       <!-- 时间轴左侧 -->
       <view class="timeline-left">
-        <view class="timeline-date" style="background-image: url('http://124.222.172.221:9000/marry/storydate.png');width: 120px;">
+        <view class="timeline-date" style="background-image: url('https://marry-wx.oss-cn-beijing.aliyuncs.com/storydate.png');width: 120px;">
           <view class="date-time">{{item.eventTimeStr}}</view>
         </view>
       </view>
@@ -31,15 +31,15 @@
         <view class="story-card" bindlongpress="showDeleteConfirm" data-id="{{item.id}}" data-title="{{item.title}}">
           <view class="story-title">
             {{item.title}}
-            <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}" data-title="{{item.title}}" wx:if="{{userInfo.nickName == '安四爷' || userInfo.nickName == '奔向'}}">
+            <view class="delete-btn" catchtap="showDeleteConfirm" data-id="{{item.id}}" data-title="{{item.title}}"  wx:if="{{userInfo.nickName == '安四爷' || userInfo.nickName == '奔向'}}">
               <text class="delete-icon">×</text>
             </view>
           </view>
           <view class="story-content-wrapper">
             <!-- 图文混排内容 -->
             <rich-text nodes="{{item.parsedContent}}" class="story-content"></rich-text>
-            <image wx:if="{{item.gender == 1}}" class="gender-icon" src="http://124.222.172.221:9000/marry/1.svg" mode="aspectFit"></image>
-            <image wx:if="{{item.gender == 0}}" class="gender-icon" src="http://124.222.172.221:9000/marry/0.svg" mode="aspectFit"></image>
+            <image wx:if="{{item.gender == 1}}" class="gender-icon" src="https://marry-wx.oss-cn-beijing.aliyuncs.com/1.svg" mode="aspectFit"></image>
+            <image wx:if="{{item.gender == 0}}" class="gender-icon" src="https://marry-wx.oss-cn-beijing.aliyuncs.com/0.svg" mode="aspectFit"></image>
           </view>
           
           <!-- 故事配图 -->

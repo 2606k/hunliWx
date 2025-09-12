@@ -14,8 +14,8 @@
   <!-- 留言列表 - 三排自动滚动 -->
   <view class="message-list-container">
     <view class="list-header">
-      <view class="list-title">祝福留言</view>
-      <view class="list-count">共{{messages.length}}条</view>
+      <!-- <view class="list-title">祝福留言</view>
+      <view class="list-count">共{{messages.length}}条</view> -->
     </view>
     
     <!-- 第一排留言 -->
@@ -81,7 +81,7 @@
   </view>
 
   <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{messages.length === 0 && !loading}}">
+  <view class="empty-state" wx:if="{{messages.length === 0}}">
     <view class="empty-text">还没有留言，快来写下您的祝福吧！</view>
   </view>
 

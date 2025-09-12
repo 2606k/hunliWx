@@ -1,6 +1,6 @@
 /* pages/photo/photo.wxss */
 page {
-  background: url('http://124.222.172.221:9000/marry/bg3.jpg') no-repeat fixed;
+  background: url('https://marry-wx.oss-cn-beijing.aliyuncs.com/bg3.jpg') no-repeat fixed;
   background-size: cover;
   background-position: center center;
 }

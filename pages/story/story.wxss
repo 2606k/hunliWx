@@ -1,7 +1,7 @@
 /* pages/story/story.wxss */
 /* 页面根背景，固定在视口上 */
 page {
-  background: url('http://124.222.172.221:9000/marry/bg2.jpg') no-repeat fixed;
+  background: url('https://marry-wx.oss-cn-beijing.aliyuncs.com/bg2.jpg') no-repeat fixed;
   background-size: cover;
   background-position: center center;
 }
@@ -233,7 +233,7 @@ page {
 
 .story-time {
   font-size: 24rpx;
-  color: #999;
+  color: #eac122;
   text-align: right;
 }
 
@@ -257,7 +257,7 @@ page {
 
 .empty-text {
   font-size: 28rpx;
-  color: #999;
+  color: #eac122;
 }
 
 /* 新增按钮 */

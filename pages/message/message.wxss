@@ -1,7 +1,7 @@
 /* pages/message/message.wxss */
 .container {
   padding: 30rpx;
-  background: url('http://124.222.172.221:9000/marry/bg4.jpg') no-repeat;
+  background: url('https://marry-wx.oss-cn-beijing.aliyuncs.com/bg4.jpg') no-repeat;
   background-size: cover;
   background-position: center center;
   height: 100vh;
@@ -30,7 +30,7 @@
 
 /* 留言列表容器 */
 .message-list-container {
-  margin: 0 0 550rpx 0;
+  margin: 100rpx 0 550rpx 0;
   padding: 0 20rpx;
 }
 
@@ -372,7 +372,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('http://124.222.172.221:9000/marry/bg4.jpg') no-repeat;
+  background: url('https://marry-wx.oss-cn-beijing.aliyuncs.com/bg4.jpg') no-repeat;
   background-size: cover;
   background-position: center center;
   z-index: -1;

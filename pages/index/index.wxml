@@ -9,7 +9,7 @@
   <view class="blue-button3" bindtap="onBlueButtonClick3"></view>
   
   <!-- <view class="backImg">
-    <image src="http://124.222.172.221:9000/marry/indexPhoto.jpg"></image>
+    <image src="https://marry-wx.oss-cn-beijing.aliyuncs.com/indexPhoto.jpg"></image>
   </view> -->
   <!-- 装饰元素 -->
   <view class="decoration-hearts">

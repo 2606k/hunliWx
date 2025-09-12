@@ -2,7 +2,7 @@
 .container {
   height: 100vh;
   /* background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffb3c7 100%); */
-  background: url('http://124.222.172.221:9000/marry/indexPhoto.jpg') center;
+  background: url('https://marry-wx.oss-cn-beijing.aliyuncs.com/indexPhoto.jpg') center;
   background-size: cover;
   background-position: center center;
   display: flex;

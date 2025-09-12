@@ -30,7 +30,7 @@ Page({
       app.showAuthRequiredDialog()
       return false
     }
-    this.loadMessages()
+    this.loadMessages();
     return true
   },
 
@@ -214,8 +214,8 @@ Page({
       url: `${app.globalData.baseUrl}/wedding/message/list`,
       method: 'GET',
       data: {
-        page: this.data.page,
-        pageSize: this.data.pageSize
+        // page: this.data.page,
+        // pageSize: this.data.pageSize
       },
       success: (res) => {
         if (res.data.code === 200) {
@@ -233,11 +233,11 @@ Page({
           
           // 确保留言数量足够支持三排布局，但不重复
           let processedMessages = messages
-          if (messages.length < 6) {
+          if (messages.length < 6 && messages.length >0) {
             // 如果留言太少，复制一些来填充三排，但保持不重复
             const repeatCount = Math.ceil(6 / messages.length)
             processedMessages = []
-            for (let i = 0; i < repeatCount; i++) {
+              for (let i = 0; i < repeatCount; i++) {
               for (let j = 0; j < messages.length; j++) {
                 processedMessages.push(messages[j])
               }

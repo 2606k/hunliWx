@@ -10,10 +10,10 @@ class BGMManager {
     this.isPlaying = true
     this.currentMusicIndex = 0
     this.musicUrls = [
-      'http://124.222.172.221:9000/marry//20250811try.mp3',
-      'http://124.222.172.221:9000/marry//20250811独家记忆.mp3',
-      'http://124.222.172.221:9000/marry//20250811传奇.mp3',
-      'http://124.222.172.221:9000/marry//20250811爱就一个字_3.mp3'
+      'https://marry-wx.oss-cn-beijing.aliyuncs.com//20250811try.mp3',
+      'https://marry-wx.oss-cn-beijing.aliyuncs.com//20250811独家记忆.mp3',
+      'https://marry-wx.oss-cn-beijing.aliyuncs.com//20250811传奇.mp3',
+      'https://marry-wx.oss-cn-beijing.aliyuncs.com//20250811爱就一个字_3.mp3'
     ]
     this.listeners = [] // 存储所有监听器
     this.init()
@@ -120,52 +120,17 @@ App({
     this.bgmManager = new BGMManager()
     
     // 自动获取用户openid
-    this.getUserOpenId()
+    // this.getUserOpenId()
   },
 
-  getUserOpenId(){
-    return new Promise((resolve, reject) => {
-      // 获取code值
-      wx.login({
-        success: (res) => {
-          const code = res.code
-          // 通过code换取openId
-          wx.request({
-            url: `https://api.weixin.qq.com/sns/jscode2session?appid=wx1af9a7ab62196405&secret=112a437a96f4a53a3b9bca32c78fb10f&js_code=${code}&grant_type=authorization_code`,
-            success: (res) => {
-              if (res.data && res.data.openid) {
-                // 将openid存储到globalData中
-                this.globalData.openid = res.data.openid
-                // 同时保存到本地存储，方便下次使用
-                wx.setStorageSync('openid', res.data.openid)
-                console.log('获取openid成功:', res.data.openid)
-                resolve(res.data.openid)
-              } else {
-                console.error('获取openid失败:', res.data)
-                reject(res.data)
-              }
-            },
-            fail: (err) => {
-              console.error('请求失败:', err)
-              reject(err)
-            }
-          })
-        },
-        fail: (err) => {
-          console.error('登录失败:', err)
-          reject(err)
-        }
-      })
-    })
-  },
+  
 
   // 检查用户是否已授权
   checkUserAuth() {
     const userInfo = wx.getStorageSync('userInfo')
-    const openid = this.globalData.openid || wx.getStorageSync('openid')
+    // const openid = this.globalData.openid || wx.getStorageSync('openid')
 
-    console.log("dfdfdf",userInfo);
-    return !!(userInfo && userInfo.userId && openid)
+    return !!(userInfo && userInfo.userId)
   },
   
   // 显示未授权提示并跳转到首页
@@ -185,8 +150,7 @@ App({
   
   globalData: {
     userInfo: null,
-    openid: null, // 添加openid字段
-    baseUrl: 'http://192.168.2.7:8002', // 本地开发服务器地址
+    baseUrl: 'https://hn.gzlove.top/marry', // 线上开发服务器地址
     weddingInfo: {
       brideName: '小美',
       groomName: '小明',

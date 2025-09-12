@@ -146,7 +146,7 @@ Page({
       // 确保URL是完整的，如果不是，添加前缀
       let fullUrl = url;
       if (!url.startsWith('http')) {
-        fullUrl = `http://124.222.172.221:9000${url.startsWith('/') ? '' : '/'}${url}`;
+        fullUrl = `https://marry-wx.oss-cn-beijing.aliyuncs.com/${url.startsWith('/') ? '' : '/'}${url}`;
       }
       return `<img class="story-content-image" src="${fullUrl}" style="max-width:100%;" />`;
     });
@@ -290,7 +290,7 @@ Page({
                 const fileName = urlParts[urlParts.length - 1];
                 
                 // 构建完整URL
-                const fullUrl = `http://124.222.172.221:9000/marry/${fileName}`;
+                const fullUrl = `https://marry-wx.oss-cn-beijing.aliyuncs.com/${fileName}`;
                 
                 console.log('构建的完整URL:', fullUrl)
                 
@@ -396,7 +396,7 @@ Page({
       
       // 如果没有本地路径且不是http开头，添加前缀
       if (!localPath && !finalUrl.startsWith('http')) {
-        finalUrl = `http://124.222.172.221:9000${finalUrl.startsWith('/') ? '' : '/'}${finalUrl}`;
+        finalUrl = `https://marry-wx.oss-cn-beijing.aliyuncs.com/${finalUrl.startsWith('/') ? '' : '/'}${finalUrl}`;
       }
       
       console.log('最终使用的图片URL:', finalUrl)
