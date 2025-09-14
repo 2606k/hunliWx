@@ -22,15 +22,51 @@ Page({
   },
 
   onLoad() {
-    this.checkAuth()
-    // 获取用户信息
-    this.getUserInfo()
+    // 页面加载时先检查授权，因为需要根据用户昵称显示增删按钮
+    this.checkAuthAndLoadData()
   },
 
   onShow() {
-    this.checkAuth()
-    // 获取用户信息
+    // 页面显示时检查授权状态
+    this.checkAuthAndLoadData()
+  },
+
+  // 授权状态改变回调
+  onAuthStatusChanged() {
+    console.log('收到授权状态改变通知')
+    // 重新获取用户信息，刷新页面状态
     this.getUserInfo()
+  },
+
+  // 检查授权并加载数据
+  checkAuthAndLoadData() {
+    if (!app.checkUserAuth()) {
+      // 如果未授权，先加载故事列表
+      this.loadStories()
+      // 然后提示用户授权以显示完整功能（增删按钮）
+      this.showStoryAuthDialog()
+    } else {
+      // 已授权，获取用户信息并加载数据
+      this.getUserInfo()
+      this.loadStories()
+    }
+  },
+
+  // 显示故事页面专用的授权提示
+  showStoryAuthDialog() {
+    wx.showModal({
+      title: '温馨提示',
+      content: '授权登录后可查看完整功能（如果您是新人，还可以添加和管理爱情故事哦）',
+      showCancel: true,
+      cancelText: '暂不授权',
+      confirmText: '立即授权',
+      success: (res) => {
+        if (res.confirm) {
+          // 直接在当前页面进行授权
+          app.requestUserAuthorization()
+        }
+      }
+    })
   },
 
   // 获取用户信息
@@ -50,22 +86,8 @@ Page({
     }
   },
 
-  // 检查用户授权状态
-  checkAuth() {
-    if (!app.checkUserAuth()) {
-      app.showAuthRequiredDialog()
-      return false
-    }
-    this.loadStories()
-    return true
-  },
-
   onPullDownRefresh() {
-    if (!app.checkUserAuth()) {
-      wx.stopPullDownRefresh()
-      app.showAuthRequiredDialog()
-      return
-    }
+    // 下拉刷新不需要授权检查
     this.setData({
       page: 1,
       stories: [],
@@ -75,10 +97,7 @@ Page({
   },
 
   onReachBottom() {
-    if (!app.checkUserAuth()) {
-      app.showAuthRequiredDialog()
-      return
-    }
+    // 上拉加载更多不需要授权检查
     if (this.data.hasMore && !this.data.loading) {
       this.loadMore()
     }
@@ -193,6 +212,7 @@ Page({
 
   // 显示新增故事弹窗
   showAddStoryModal() {
+    // 只有在需要添加故事时才检查授权
     if (!app.checkUserAuth()) {
       app.showAuthRequiredDialog()
       return
@@ -556,6 +576,7 @@ Page({
 
   // 新增故事
   addStory() {
+    // 只有在提交故事时才检查授权
     if (!app.checkUserAuth()) {
       app.showAuthRequiredDialog()
       return
@@ -718,6 +739,7 @@ Page({
 
   // 显示删除确认对话框
   showDeleteConfirm(e) {
+    // 只有在删除故事时才检查授权
     if (!app.checkUserAuth()) {
       app.showAuthRequiredDialog()
       return
@@ -740,6 +762,7 @@ Page({
 
   // 删除故事
   deleteStory(id) {
+    // 只有在删除故事时才检查授权
     if (!app.checkUserAuth()) {
       app.showAuthRequiredDialog()
       return

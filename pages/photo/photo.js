@@ -29,6 +29,13 @@ Page({
     this.checkAuth()
   },
 
+  // 授权状态改变回调
+  onAuthStatusChanged() {
+    console.log('收到授权状态改变通知')
+    // 重新检查授权状态
+    this.checkAuth()
+  },
+
   // 检查用户授权状态
   checkAuth() {
     // 获取授权状态，但不强制要求授权
@@ -43,11 +50,7 @@ Page({
   },
 
   onPullDownRefresh() {
-    if (!app.checkUserAuth()) {
-      wx.stopPullDownRefresh()
-      app.showAuthRequiredDialog()
-      return
-    }
+    // 下拉刷新不需要授权检查
     this.setData({
       page: 1,
       allPhotos: [],

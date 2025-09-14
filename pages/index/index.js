@@ -4,8 +4,6 @@ const app = getApp()
 Page({
   data: {
     weddingInfo: {},
-    userInfo: {},
-    hasUserInfo: false,
     formattedDate: '',
     countdown: {
       days: 0,
@@ -24,16 +22,12 @@ Page({
     // 格式化日期
     this.formatWeddingDate()
     
-    // 移除自动检查用户信息的代码，让用户可以先浏览功能
-    // this.checkUserInfo()
-    
     // 开始倒计时
     this.startCountdown()
   },
 
   onShow() {
-    // 在页面显示时检查用户信息状态，但不强制要求登录
-    this.checkUserInfo()
+    // 页面显示时不需要检查用户信息
   },
 
   onUnload() {
@@ -102,129 +96,6 @@ Page({
     this.setData({ countdownTimer: timer })
   },
 
-  // 检查用户信息
-  checkUserInfo() {
-    const userInfo = wx.getStorageSync('userInfo')
-    
-    if (userInfo && userInfo.userId) {
-      // 更新全局数据
-      app.globalData.userInfo = userInfo
-      
-      this.setData({
-        userInfo: userInfo,
-        hasUserInfo: true
-      })
-      
-      console.log('用户已登录，用户ID:', userInfo)
-    } else if (userInfo && !userInfo.userId) {
-      // 有用户信息但没有用户ID，需要重新获取
-      console.log('检测到用户信息但缺少用户ID，需要重新登录')
-      wx.removeStorageSync('userInfo')
-      this.setData({
-        userInfo: {},
-        hasUserInfo: false
-      })
-    }
-  },
-
-  // 获取用户信息
-  getUserProfile() {
-    wx.getUserProfile({
-      desc: '用于完善用户资料',
-      success: (res) => {
-        console.log('获取用户信息成功:', res.userInfo)
-        
-        // 保存用户信息
-        wx.setStorageSync('userInfo', res.userInfo)
-        
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-        
-        // 显示欢迎信息
-        wx.showToast({
-          title: '授权成功',
-          icon: 'success',
-          duration: 2000
-        })
-        
-        // 可以在这里调用后端API记录用户信息
-        this.saveUserInfoToServer(res.userInfo)
-      },
-      fail: (err) => {
-        console.error('获取用户信息失败:', err)
-        wx.showToast({
-          title: '授权失败，请重试',
-          icon: 'none'
-        })
-      }
-    })
-  },
-
-  // 保存用户信息到服务器
-  saveUserInfoToServer(userInfo) {
-    console.log('用户信息已保存到本地:', userInfo)
-    
-    // 只发送可获取的信息到服务器
-    const userData = {
-      nickName: userInfo.nickName || '',
-      avatarUrl: userInfo.avatarUrl || ''
-    }
-    
-    // 发送到服务器
-    wx.request({
-      url: `${app.globalData.baseUrl}/user/save`,
-      method: 'POST',
-      data: userData,
-      success: (res) => {
-        console.log('保存用户信息成功:', res.data)
-        
-        // 处理服务器返回的用户ID
-        if (res.data.data) {
-          // 将用户ID添加到userInfo中
-          const updatedUserInfo = Object.assign({}, userInfo, {
-            userId: res.data.data
-          })
-          
-          // 更新本地存储
-          wx.setStorageSync('userInfo', updatedUserInfo)
-          
-          // 更新全局数据
-          app.globalData.userInfo = updatedUserInfo
-          
-          // 更新页面数据
-          this.setData({
-            userInfo: updatedUserInfo
-          })
-          
-          console.log('用户信息已更新，用户ID:', res.data.data)
-          
-          wx.showToast({
-            title: '登录成功',
-            icon: 'success',
-            duration: 1500
-          })
-        } else {
-          console.error('服务器未返回用户ID')
-          wx.showToast({
-            title: '登录成功，但未获取到用户ID',
-            icon: 'none',
-            duration: 2000
-          })
-        }
-      },
-      fail: (err) => {
-        console.error('保存用户信息失败:', err)
-        wx.showToast({
-          title: '服务器连接失败',
-          icon: 'none',
-          duration: 2000
-        })
-      }
-    })
-  },
-
   // 导航到故事页面
   goToStory() {
     wx.navigateTo({
@@ -243,70 +114,6 @@ Page({
   goToMessage() {
     wx.navigateTo({
       url: '/pages/message/message'
-    })
-  },
-
-  // 获取用户ID的工具函数
-  getUserId() {
-    const userInfo = wx.getStorageSync('userInfo')
-    const userId = userInfo ? userInfo.userId : null
-    
-    if (!userId) {
-      console.error('未找到用户ID，请先登录')
-      wx.showToast({
-        title: '请先登录',
-        icon: 'none'
-      })
-      return null
-    }
-    return userId
-  },
-
-  // 获取完整用户信息的工具函数
-  getUserInfo() {
-    const userInfo = wx.getStorageSync('userInfo')
-    if (!userInfo || !userInfo.userId) {
-      console.error('未找到用户信息，请先登录')
-      return null
-    }
-    return userInfo
-  },
-
-  // 检查用户登录状态
-  checkLoginStatus() {
-    const userId = this.getUserId()
-    if (!userId) {
-      return false
-    }
-    return true
-  },
-
-  // 通用API请求函数，自动包含用户ID
-  apiRequest(options) {
-    const userId = this.getUserId()
-    if (!userId) {
-      return Promise.reject(new Error('用户未登录'))
-    }
-
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: `${app.globalData.baseUrl}${options.url}`,
-        method: options.method || 'GET',
-        data: Object.assign({
-          userId: userId
-        }, options.data || {}),
-        header: Object.assign({
-          'Content-Type': 'application/json'
-        }, options.header || {}),
-        success: (res) => {
-          console.log('API请求成功:', res.data)
-          resolve(res.data)
-        },
-        fail: (err) => {
-          console.error('API请求失败:', err)
-          reject(err)
-        }
-      })
     })
   },
 

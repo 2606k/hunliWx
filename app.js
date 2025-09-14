@@ -252,20 +252,130 @@ App({
     return !!(userInfo && userInfo.userId)
   },
   
-  // 显示未授权提示并跳转到首页
+  // 显示未授权提示并提供授权选项
   showAuthRequiredDialog() {
     wx.showModal({
-      title: '提示',
-      content: '该功能需要授权才能使用，您可以在首页选择是否授权登录',
+      title: '需要授权',
+      content: '该功能需要微信授权才能使用，是否现在授权？',
       showCancel: true,
-      cancelText: '暂不授权',
-      confirmText: '去授权',
+      cancelText: '取消',
+      confirmText: '立即授权',
       success: (res) => {
         if (res.confirm) {
-          wx.switchTab({
-            url: '/pages/index/index'
+          // 直接在当前页面进行授权
+          this.requestUserAuthorization()
+        }
+      }
+    })
+  },
+
+  // 请求用户授权
+  requestUserAuthorization() {
+    wx.getUserProfile({
+      desc: '用于完善用户资料',
+      success: (res) => {
+        console.log('获取用户信息成功:', res.userInfo)
+        
+        // 保存用户信息到本地存储
+        wx.setStorageSync('userInfo', res.userInfo)
+        
+        // 更新全局数据
+        this.globalData.userInfo = res.userInfo
+        
+        // 显示欢迎信息
+        wx.showToast({
+          title: '授权成功',
+          icon: 'success',
+          duration: 2000
+        })
+        
+        // 保存用户信息到服务器
+        this.saveUserInfoToServer(res.userInfo)
+        
+        // 通知当前页面刷新授权状态
+        this.notifyAuthStatusChanged()
+      },
+      fail: (err) => {
+        console.error('获取用户信息失败:', err)
+        wx.showToast({
+          title: '授权失败，请重试',
+          icon: 'none'
+        })
+      }
+    })
+  },
+
+  // 通知当前页面授权状态已改变
+  notifyAuthStatusChanged() {
+    // 获取当前页面栈
+    const pages = getCurrentPages()
+    if (pages.length > 0) {
+      const currentPage = pages[pages.length - 1]
+      
+      // 如果当前页面有 onAuthStatusChanged 方法，则调用它
+      if (typeof currentPage.onAuthStatusChanged === 'function') {
+        currentPage.onAuthStatusChanged()
+      }
+    }
+  },
+
+  // 保存用户信息到服务器
+  saveUserInfoToServer(userInfo) {
+    console.log('用户信息已保存到本地:', userInfo)
+    
+    // 只发送可获取的信息到服务器
+    const userData = {
+      nickName: userInfo.nickName || '',
+      avatarUrl: userInfo.avatarUrl || ''
+    }
+    
+    // 发送到服务器
+    wx.request({
+      url: `${this.globalData.baseUrl}/user/save`,
+      method: 'POST',
+      data: userData,
+      success: (res) => {
+        console.log('保存用户信息成功:', res.data)
+        
+        // 处理服务器返回的用户ID
+        if (res.data.data) {
+          // 将用户ID添加到userInfo中
+          const updatedUserInfo = Object.assign({}, userInfo, {
+            userId: res.data.data
+          })
+          
+          // 更新本地存储
+          wx.setStorageSync('userInfo', updatedUserInfo)
+          
+          // 更新全局数据
+          this.globalData.userInfo = updatedUserInfo
+          
+          console.log('用户信息已更新，用户ID:', res.data.data)
+          
+          wx.showToast({
+            title: '登录成功',
+            icon: 'success',
+            duration: 1500
+          })
+          
+          // 再次通知页面刷新状态，因为用户ID已更新
+          this.notifyAuthStatusChanged()
+        } else {
+          console.error('服务器未返回用户ID')
+          wx.showToast({
+            title: '登录成功，但未获取到用户ID',
+            icon: 'none',
+            duration: 2000
           })
         }
+      },
+      fail: (err) => {
+        console.error('保存用户信息失败:', err)
+        wx.showToast({
+          title: '服务器连接失败',
+          icon: 'none',
+          duration: 2000
+        })
       }
     })
   },

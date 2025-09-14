@@ -29,6 +29,13 @@ Page({
     this.checkAuthStatus()
   },
 
+  // 授权状态改变回调
+  onAuthStatusChanged() {
+    console.log('收到授权状态改变通知')
+    // 重新检查授权状态
+    this.checkAuthStatus()
+  },
+
   // 检查用户授权状态，但不强制要求授权
   checkAuthStatus() {
     const isAuthorized = app.checkUserAuth()
