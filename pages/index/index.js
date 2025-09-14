@@ -11,7 +11,8 @@ Page({
       minutes: 0,
       seconds: 0
     },
-    countdownTimer: null
+    countdownTimer: null,
+    debugMode: false // 调试模式，设置为true时显示按钮边框
   },
 
   onLoad(options) {
@@ -35,6 +36,18 @@ Page({
       clearInterval(this.data.countdownTimer)
     }
   },
+
+  // 长按背景切换调试模式
+  // onLongPress() {
+  //   this.setData({
+  //     debugMode: !this.data.debugMode
+  //   })
+  //   wx.showToast({
+  //     title: this.data.debugMode ? '调试模式开启' : '调试模式关闭',
+  //     icon: 'none',
+  //     duration: 1500
+  //   })
+  // },
 
   // 格式化婚礼日期
   formatWeddingDate() {

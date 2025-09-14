@@ -1,12 +1,18 @@
 <!--pages/index/index.wxml-->
-<view class="container">
+<view class="container" bindlongpress="onLongPress">
   <!-- 背景音乐组件 -->
   <bgm></bgm>
   
   <!-- 蓝色按钮 - 绝对定位在指定区域 -->
-  <view class="blue-button" bindtap="onBlueButtonClick"></view>
-  <view class="blue-button2" bindtap="onBlueButtonClick2"></view>
-  <view class="blue-button3" bindtap="onBlueButtonClick3"></view>
+  <view class="blue-button {{debugMode ? 'debug-border' : ''}}" bindtap="onBlueButtonClick">
+    <text wx:if="{{debugMode}}" class="debug-text">故事</text>
+  </view>
+  <view class="blue-button2 {{debugMode ? 'debug-border' : ''}}" bindtap="onBlueButtonClick2">
+    <text wx:if="{{debugMode}}" class="debug-text">相册</text>
+  </view>
+  <view class="blue-button3 {{debugMode ? 'debug-border' : ''}}" bindtap="onBlueButtonClick3">
+    <text wx:if="{{debugMode}}" class="debug-text">留言</text>
+  </view>
   
   <!-- <view class="backImg">
     <image src="https://marry-wx.oss-cn-beijing.aliyuncs.com/indexPhoto.jpg"></image>

@@ -672,58 +672,148 @@
 } 
 
 /* 蓝色按钮样式 */
+/* 蓝色按钮 - 使用百分比定位提高自适应性 */
 .blue-button {
   position: absolute;
-  left: 210rpx;
-  top: 1080rpx; /* 调整到可见区域 */
-  width: 220rpx; /* 711 - 364 = 347 */
-  height: 50rpx; /* 1754 - 1692 = 62 */
-  /* background-color: #357ABD; */
+  /* 使用百分比定位，相对于容器的28%位置 */
+  left: 28%;
+  top: 75vh; /* 使用视窗高度单位 */
+  width: 55.3vw; /* 使用视窗宽度单位 */
+  height: 6vh; /* 使用视窗高度单位 */
   border-radius: 8rpx;
   cursor: pointer;
   z-index: 5;
   transition: all 0.3s ease;
-  /* 添加调试样式 */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: transparent; /* 隐藏文字，只作为点击区域 */
+  /* 添加调试边框，上线时可以删除 */
+  /* border: 2rpx solid rgba(255, 0, 0, 0.3); */
 }
 
 .blue-button2 {
   position: absolute;
-  left: 335rpx;
-  top: 1180rpx; /* 调整到可见区域 */
-  width: 220rpx; /* 711 - 364 = 347 */
-  height: 50rpx; /* 1754 - 1692 = 62 */
-  /* background-color: #357ABD; */
+  /* 使用百分比定位，相对于容器的44.7%位置 */
+  left: 44.7%;
+  top: 82vh; /* 使用视窗高度单位 */
+  width: 29.3vw; /* 使用视窗宽度单位 */
+  height: 6vh; /* 使用视窗高度单位 */
   border-radius: 8rpx;
   cursor: pointer;
   z-index: 5;
   transition: all 0.3s ease;
-  /* 添加调试样式 */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: transparent; /* 隐藏文字，只作为点击区域 */
+  /* 添加调试边框，上线时可以删除 */
+  /* border: 2rpx solid rgba(0, 255, 0, 0.3); */
 }
 
 .blue-button3 {
   position: absolute;
-  left: 459rpx;
-  top: 1280rpx; /* 调整到可见区域 */
-  width: 220rpx; /* 711 - 364 = 347 */
-  height: 50rpx; /* 1754 - 1692 = 62 */
-  /* background-color: #357ABD; */
+  /* 使用百分比定位，相对于容器的61.2%位置 */
+  left: 61.2%;
+  top: 89vh; /* 使用视窗高度单位 */
+  width: 29.3vw; /* 使用视窗宽度单位 */
+  height: 6vh; /* 使用视窗高度单位 */
   border-radius: 8rpx;
   cursor: pointer;
   z-index: 5;
   transition: all 0.3s ease;
-  /* 添加调试样式 */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: transparent; /* 隐藏文字，只作为点击区域 */
+  /* 添加调试边框，上线时可以删除 */
+  /* border: 2rpx solid rgba(0, 0, 255, 0.3); */
+}
+
+/* 针对不同屏幕尺寸的适配 */
+/* 小屏幕设备 (iPhone SE等) */
+@media (max-width: 667px) {
+  .blue-button {
+    left: 26%;
+    top: 72vh;
+    width: 32vw;
+    height: 7vh;
+  }
+  
+  .blue-button2 {
+    left: 42%;
+    top: 79vh;
+    width: 32vw;
+    height: 7vh;
+  }
+  
+  .blue-button3 {
+    left: 58%;
+    top: 86vh;
+    width: 32vw;
+    height: 7vh;
+  }
+}
+
+/* 大屏幕设备 (iPhone 14 Pro Max等) */
+@media (min-width: 768px) {
+  .blue-button {
+    left: 30%;
+    top: 77vh;
+    width: 27vw;
+    height: 5vh;
+  }
+  
+  .blue-button2 {
+    left: 46%;
+    top: 84vh;
+    width: 27vw;
+    height: 5vh;
+  }
+  
+  .blue-button3 {
+    left: 62%;
+    top: 91vh;
+    width: 27vw;
+    height: 5vh;
+  }
+}
+
+/* 超宽屏设备 */
+@media (min-width: 1024px) {
+  .blue-button {
+    left: 32%;
+    top: 78vh;
+    width: 25vw;
+    height: 4vh;
+  }
+  
+  .blue-button2 {
+    left: 47%;
+    top: 85vh;
+    width: 25vw;
+    height: 4vh;
+  }
+  
+  .blue-button3 {
+    left: 62%;
+    top: 92vh;
+    width: 25vw;
+    height: 4vh;
+  }
+}
+
+/* 调试模式样式 */
+.debug-border {
+  border: 3rpx solid rgba(255, 0, 0, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.debug-text {
+  color: red !important;
+  font-size: 24rpx;
+  font-weight: bold;
+  text-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.8);
 }
 
 /* 底部授权按钮样式 */
