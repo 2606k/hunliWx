@@ -678,7 +678,7 @@
   /* 使用百分比定位，相对于容器的28%位置 */
   left: 28%;
   top: 75vh; /* 使用视窗高度单位 */
-  width: 55.3vw; /* 使用视窗宽度单位 */
+  width: 29.3vw; /* 使用视窗宽度单位 */
   height: 6vh; /* 使用视窗高度单位 */
   border-radius: 8rpx;
   cursor: pointer;
