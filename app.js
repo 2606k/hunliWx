@@ -256,53 +256,99 @@ App({
   showAuthRequiredDialog() {
     wx.showModal({
       title: '需要授权',
-      content: '该功能需要微信授权才能使用，是否现在授权？',
+      content: '该功能需要获取您的基本信息才能使用，是否现在设置？',
       showCancel: true,
       cancelText: '取消',
-      confirmText: '立即授权',
+      confirmText: '立即设置',
       success: (res) => {
         if (res.confirm) {
-          // 直接在当前页面进行授权
-          this.requestUserAuthorization()
+          // 显示用户信息填写页面
+          this.showUserInfoForm()
         }
       }
     })
   },
 
-  // 请求用户授权
-  requestUserAuthorization() {
-    wx.getUserProfile({
-      desc: '用于完善用户资料',
+  // 显示用户信息填写表单
+  showUserInfoForm() {
+    // 获取当前页面栈
+    const pages = getCurrentPages()
+    if (pages.length > 0) {
+      const currentPage = pages[pages.length - 1]
+      
+      // 如果当前页面有 showUserInfoModal 方法，则调用它
+      if (typeof currentPage.showUserInfoModal === 'function') {
+        currentPage.showUserInfoModal()
+      } else {
+        // 否则使用默认的用户信息获取方式
+        this.requestBasicUserInfo()
+      }
+    }
+  },
+
+  // 请求基础用户信息（不包含真实昵称和头像）
+  requestBasicUserInfo() {
+    wx.getUserInfo({
       success: (res) => {
-        console.log('获取用户信息成功:', res.userInfo)
+        console.log('获取基础用户信息成功:', res.userInfo)
+        
+        // 使用默认信息
+        const userInfo = {
+          nickName: '微信用户',
+          avatarUrl: 'https://marry-wx.oss-cn-beijing.aliyuncs.com/default-avatar.png',
+          ...res.userInfo
+        }
         
         // 保存用户信息到本地存储
-        wx.setStorageSync('userInfo', res.userInfo)
+        wx.setStorageSync('userInfo', userInfo)
         
         // 更新全局数据
-        this.globalData.userInfo = res.userInfo
-        
-        // 显示欢迎信息
-        wx.showToast({
-          title: '授权成功',
-          icon: 'success',
-          duration: 2000
-        })
+        this.globalData.userInfo = userInfo
         
         // 保存用户信息到服务器
-        this.saveUserInfoToServer(res.userInfo)
+        this.saveUserInfoToServer(userInfo)
         
         // 通知当前页面刷新授权状态
         this.notifyAuthStatusChanged()
       },
       fail: (err) => {
         console.error('获取用户信息失败:', err)
-        wx.showToast({
-          title: '授权失败，请重试',
-          icon: 'none'
-        })
+        // 使用完全默认的信息
+        const defaultUserInfo = {
+          nickName: '访客',
+          avatarUrl: 'https://marry-wx.oss-cn-beijing.aliyuncs.com/default-avatar.png'
+        }
+        
+        wx.setStorageSync('userInfo', defaultUserInfo)
+        this.globalData.userInfo = defaultUserInfo
+        this.saveUserInfoToServer(defaultUserInfo)
+        this.notifyAuthStatusChanged()
       }
     })
+  },
+
+  // 保存用户自定义的信息
+  saveCustomUserInfo(customUserInfo) {
+    console.log('保存自定义用户信息:', customUserInfo)
+    
+    // 保存用户信息到本地存储
+    wx.setStorageSync('userInfo', customUserInfo)
+    
+    // 更新全局数据
+    this.globalData.userInfo = customUserInfo
+    
+    // 显示成功信息
+    wx.showToast({
+      title: '信息设置成功',
+      icon: 'success',
+      duration: 2000
+    })
+    
+    // 保存用户信息到服务器
+    this.saveUserInfoToServer(customUserInfo)
+    
+    // 通知当前页面刷新授权状态
+    this.notifyAuthStatusChanged()
   },
 
   // 通知当前页面授权状态已改变

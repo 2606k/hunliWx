@@ -18,7 +18,12 @@ Page({
     },
     richContentPreview: [], // 富文本内容预览
     currentCursorPosition: 0, // 当前光标位置
-    userInfo: null // 添加用户信息
+    userInfo: null, // 添加用户信息
+    showUserInfoModal: false, // 用户信息填写弹窗
+    tempUserInfo: { // 临时用户信息
+      nickName: '',
+      avatarUrl: ''
+    }
   },
 
   onLoad() {
@@ -56,17 +61,74 @@ Page({
   showStoryAuthDialog() {
     wx.showModal({
       title: '温馨提示',
-      content: '授权登录后可查看完整功能（如果您是新人，还可以添加和管理爱情故事哦）',
+      content: '设置您的信息后可查看完整功能（如果您是新人，还可以添加和管理爱情故事哦）',
       showCancel: true,
-      cancelText: '暂不授权',
-      confirmText: '立即授权',
+      cancelText: '暂不设置',
+      confirmText: '立即设置',
       success: (res) => {
         if (res.confirm) {
-          // 直接在当前页面进行授权
-          app.requestUserAuthorization()
+          // 显示用户信息填写弹窗
+          this.showUserInfoModal()
         }
       }
     })
+  },
+
+  // 显示用户信息填写弹窗
+  showUserInfoModal() {
+    this.setData({
+      showUserInfoModal: true,
+      tempUserInfo: {
+        nickName: '',
+        avatarUrl: 'https://marry-wx.oss-cn-beijing.aliyuncs.com/default-avatar.png'
+      }
+    })
+  },
+
+  // 隐藏用户信息填写弹窗
+  hideUserInfoModal() {
+    this.setData({
+      showUserInfoModal: false
+    })
+  },
+
+  // 选择头像
+  chooseAvatar(e) {
+    const { avatarUrl } = e.detail
+    this.setData({
+      'tempUserInfo.avatarUrl': avatarUrl
+    })
+  },
+
+  // 输入昵称
+  onNickNameInput(e) {
+    this.setData({
+      'tempUserInfo.nickName': e.detail.value
+    })
+  },
+
+  // 提交用户信息
+  submitUserInfo() {
+    const { nickName, avatarUrl } = this.data.tempUserInfo
+    
+    if (!nickName.trim()) {
+      wx.showToast({
+        title: '请输入昵称',
+        icon: 'none'
+      })
+      return
+    }
+
+    const userInfo = {
+      nickName: nickName.trim(),
+      avatarUrl: avatarUrl
+    }
+
+    // 调用全局方法保存用户信息
+    app.saveCustomUserInfo(userInfo)
+    
+    // 隐藏弹窗
+    this.hideUserInfoModal()
   },
 
   // 获取用户信息

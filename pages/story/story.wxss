@@ -642,4 +642,30 @@ page {
 
 .image-load-status:empty {
   display: none;
+}
+
+/* 用户信息填写弹窗样式 */
+.avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  background: #f8f8f8;
+  border-radius: 12rpx;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.avatar-preview {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-bottom: 10rpx;
+  border: 2rpx solid #e0e0e0;
+}
+
+.avatar-tip {
+  font-size: 24rpx;
+  color: #666;
 } 

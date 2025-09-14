@@ -13,7 +13,7 @@
   
   <!-- 未授权提示 -->
   <view class="auth-tip" wx:if="{{!isAuthorized}}">
-    <text class="auth-tip-text">登录后可以发送祝福留言哦~</text>
+    <text class="auth-tip-text">设置您的信息后可以发送祝福留言哦~</text>
   </view>
   
   <!-- 留言列表 - 三排自动滚动 -->
@@ -120,6 +120,43 @@
       <view class="modal-footer">
         <button class="btn-secondary" bindtap="hideAddMessageModal">取消</button>
         <button class="btn-primary" bindtap="submitMessage" loading="{{submitting}}">发送祝福</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 用户信息填写弹窗 -->
+  <view class="modal-overlay" wx:if="{{showUserInfoModal}}" bindtap="hideUserInfoModal">
+    <view class="modal-content" catchtap="preventClose">
+      <view class="modal-header">
+        <text class="modal-title">设置您的信息</text>
+        <text class="modal-close" bindtap="hideUserInfoModal">×</text>
+      </view>
+      
+      <view class="modal-body">
+        <view class="form-group">
+          <text class="form-label">头像</text>
+          <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="chooseAvatar">
+            <image class="avatar-preview" src="{{tempUserInfo.avatarUrl}}" mode="aspectFill"></image>
+            <text class="avatar-tip">点击选择头像</text>
+          </button>
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">昵称</text>
+          <input 
+            class="form-input" 
+            type="nickname"
+            placeholder="请输入您的昵称" 
+            value="{{tempUserInfo.nickName}}" 
+            bindinput="onNickNameInput" 
+            maxlength="20" 
+          />
+        </view>
+      </view>
+      
+      <view class="modal-footer">
+        <button class="btn-secondary" bindtap="hideUserInfoModal">取消</button>
+        <button class="btn-primary" bindtap="submitUserInfo">确定</button>
       </view>
     </view>
   </view>

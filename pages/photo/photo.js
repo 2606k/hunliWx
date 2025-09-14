@@ -18,7 +18,12 @@ Page({
     photosPerPage: 1, // 修改为每页只显示1张照片
     paginatedPhotos: [],
     currentPhoto: null, // 添加当前显示的照片
-    isAuthorized: false // 添加授权状态
+    isAuthorized: false, // 添加授权状态
+    showUserInfoModal: false, // 用户信息填写弹窗
+    tempUserInfo: { // 临时用户信息
+      nickName: '',
+      avatarUrl: ''
+    }
   },
 
   onLoad() {
@@ -34,6 +39,63 @@ Page({
     console.log('收到授权状态改变通知')
     // 重新检查授权状态
     this.checkAuth()
+  },
+
+  // 显示用户信息填写弹窗
+  showUserInfoModal() {
+    this.setData({
+      showUserInfoModal: true,
+      tempUserInfo: {
+        nickName: '',
+        avatarUrl: 'https://marry-wx.oss-cn-beijing.aliyuncs.com/default-avatar.png'
+      }
+    })
+  },
+
+  // 隐藏用户信息填写弹窗
+  hideUserInfoModal() {
+    this.setData({
+      showUserInfoModal: false
+    })
+  },
+
+  // 选择头像
+  chooseAvatar(e) {
+    const { avatarUrl } = e.detail
+    this.setData({
+      'tempUserInfo.avatarUrl': avatarUrl
+    })
+  },
+
+  // 输入昵称
+  onNickNameInput(e) {
+    this.setData({
+      'tempUserInfo.nickName': e.detail.value
+    })
+  },
+
+  // 提交用户信息
+  submitUserInfo() {
+    const { nickName, avatarUrl } = this.data.tempUserInfo
+    
+    if (!nickName.trim()) {
+      wx.showToast({
+        title: '请输入昵称',
+        icon: 'none'
+      })
+      return
+    }
+
+    const userInfo = {
+      nickName: nickName.trim(),
+      avatarUrl: avatarUrl
+    }
+
+    // 调用全局方法保存用户信息
+    app.saveCustomUserInfo(userInfo)
+    
+    // 隐藏弹窗
+    this.hideUserInfoModal()
   },
 
   // 检查用户授权状态
